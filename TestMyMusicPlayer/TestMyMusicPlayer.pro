@@ -12,6 +12,3 @@ SOURCES +=  tst_testmymusicplayer.cpp \
 HEADERS += \
     ../MyPlayMusic/lyrices.h
 
-RESOURCES += \
-    res.qrc
-

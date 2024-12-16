@@ -36,7 +36,5 @@
         <file>img/more.png</file>
         <file>img/refresh.png</file>
         <file>img/search.png</file>
-        <file>music/lingyu.lrc</file>
-        <file>music/lingyu.mp3</file>
     </qresource>
 </RCC>

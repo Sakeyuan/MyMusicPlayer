@@ -9,6 +9,16 @@ Lyrices::Lyrices() : offset(0) {}
 bool Lyrices::loadFromFile(const QString &filePath)
 {
     QFile file(filePath);
+    // 检查文件是否存在
+    if (!file.exists()) {
+        qDebug() << "文件不存在:" << filePath;
+        return false;
+    }
+
+    if (!file.permissions().testFlag(QFile::ReadUser)) {
+        qDebug() << "没有读取权限:" << filePath;
+        return false;
+    }
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "无法打开文件" << filePath;
         return false;
