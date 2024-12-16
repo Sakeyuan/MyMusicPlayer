@@ -36,7 +36,7 @@
         <file>img/more.png</file>
         <file>img/refresh.png</file>
         <file>img/search.png</file>
-        <file>music/淋雨一直走+-+张韶涵.lrc</file>
-        <file>music/淋雨一直走-张韶涵.mp3</file>
+        <file>music/lingyu.lrc</file>
+        <file>music/lingyu.mp3</file>
     </qresource>
 </RCC>

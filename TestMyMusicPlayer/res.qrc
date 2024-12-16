@@ -2,7 +2,5 @@
     <qresource prefix="/">
         <file>music/lingyu.lrc</file>
         <file>music/lingyu.mp3</file>
-        <file>music/月半小曲.mp3</file>
-        <file>music/月半小夜曲+-+李克勤.lrc</file>
     </qresource>
 </RCC>

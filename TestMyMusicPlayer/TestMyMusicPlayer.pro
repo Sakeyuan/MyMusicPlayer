@@ -13,9 +13,5 @@ HEADERS += \
     ../MyPlayMusic/lyrices.h
 
 RESOURCES += \
-    res.qrc \
     res.qrc
 
-DISTFILES += \
-    music/lingyu.lrc \
-    music/lingyu.mp3

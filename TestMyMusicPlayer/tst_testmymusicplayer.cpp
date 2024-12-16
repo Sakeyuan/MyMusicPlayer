@@ -28,9 +28,7 @@ void TestMyMusicPlayer::test_lyricparser()
 {
     Lyrices lyricParser;
     // 调用方法并验证结果
-    QTextCodec* codec = QTextCodec::codecForName("GB2312");
-    QString filePath = ":/music/月半小夜曲+-+李克勤.lrc";
-    QVERIFY(lyricParser.loadFromFile(codec->fromUnicode(filePath).data()));
+    QVERIFY(lyricParser.loadFromFile(":/music/lingyu.lrc"));
     QString lyric = lyricParser.getLyricAtTime(12000);
     QVERIFY(!lyric.isEmpty());
 
