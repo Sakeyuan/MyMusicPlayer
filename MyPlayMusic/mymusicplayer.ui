@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyMusicPlayer</class>
+ <widget class="QWidget" name="MyMusicPlayer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1084</width>
+    <height>775</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1050</width>
+    <height>750</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MyMusicPlayer</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>-1</y>
+     <width>1052</width>
+     <height>741</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="mainVerticalLayout">
+    <item>
+     <widget class="QWidget" name="topNavWidget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>1050</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(236, 65, 65);</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="topNavWidgetHorizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_logo_name">
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border-image: url(:/img/music.png);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_logo">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string> 清酒音乐</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="topHorizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>500</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="emailBtn">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="setingBtn">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_line">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border-image: url(:/img/vertical_line.png);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="shrinkBtn">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="enlargeBtn">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="closeBtn">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="centerHorizontalLayout">
+      <item>
+       <widget class="QWidget" name="mainLeftWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>175</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(240, 243, 246);</string>
+        </property>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>180</width>
+           <height>601</height>
+          </rect>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_3">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>178</width>
+            <height>599</height>
+           </rect>
+          </property>
+          <widget class="QListWidget" name="recommendListWidget">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>33</y>
+             <width>159</width>
+             <height>171</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_recomment">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>11</y>
+             <width>32</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>推荐</string>
+           </property>
+          </widget>
+          <widget class="QListWidget" name="myMusicListWidget">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>230</y>
+             <width>159</width>
+             <height>148</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_myMusic">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>210</y>
+             <width>64</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>我的音乐</string>
+           </property>
+          </widget>
+          <widget class="QListWidget" name="createMusicListWidget">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>410</y>
+             <width>159</width>
+             <height>161</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>11</x>
+             <y>380</y>
+             <width>161</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_createMusicList">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>创建的歌单</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-image: url(:/img/add.png);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="mainCenterStackedWidget">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(247, 249, 252);</string>
+        </property>
+        <widget class="QWidget" name="mainCenterStackedWidgetPage1">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QTabWidget" name="centerTabWidget">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="pRecommentTab">
+             <attribute name="title">
+              <string>个性推荐</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QCarousel" name="carouselWidget" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>120</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_2" native="true">
+                <widget class="QLabel" name="label">
+                 <property name="geometry">
+                  <rect>
+                   <x>140</x>
+                   <y>120</y>
+                   <width>81</width>
+                   <height>16</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>个性化推荐</string>
+                 </property>
+                </widget>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="songListTabBtn">
+             <attribute name="title">
+              <string>歌单</string>
+             </attribute>
+             <widget class="QLabel" name="label_4">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>330</y>
+                <width>201</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string> 歌单</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="radioTabBtn">
+             <attribute name="title">
+              <string>主播电台</string>
+             </attribute>
+             <widget class="QLabel" name="label_5">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>280</y>
+                <width>201</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string> 主播电台</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="rankTabBtn">
+             <attribute name="title">
+              <string>排行榜</string>
+             </attribute>
+             <widget class="QLabel" name="label_6">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>320</y>
+                <width>201</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string> 排行榜</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="songerTabBtn">
+             <attribute name="title">
+              <string>歌手</string>
+             </attribute>
+             <widget class="QLabel" name="label_7">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>290</y>
+                <width>201</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>歌手</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="recentMusicTabBtn">
+             <attribute name="title">
+              <string>最新音乐</string>
+             </attribute>
+             <widget class="QLabel" name="label_8">
+              <property name="geometry">
+               <rect>
+                <x>330</x>
+                <y>350</y>
+                <width>201</width>
+                <height>131</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>最新音乐</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="bottomWidget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(240, 243, 246);</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="bottomWidgetHorizontalLayout">
+         <item>
+          <widget class="MusicMessage" name="widget" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="bottomHLayout">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="preMusicBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="stopMusicBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="nextMusicBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="startTimeLabel">
+             <property name="text">
+              <string>0.0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="musicTimeSlider">
+             <property name="styleSheet">
+              <string notr="true">QSlider::groove:horizontal {
+    border: 0px solid #ff0000;
+    height: 4px;  /* 设置滑槽高度 */
+}
+
+QSlider::sub-page:horizontal {
+    background: rgb(236, 65, 65);
+    border-radius: 2px;
+}
+
+QSlider::add-page:horizontal {
+    background: rgb(255, 255, 255);
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: rgb(255, 255, 255);
+    border: 0px solid #666666;
+    border-radius: 6px; /* 圆形滑块 */
+    width: 12px;  /* 设置滑块宽度 */
+    height: 12px; /* 设置滑块高度 */
+    margin-top: -4px; /* 调整滑块的垂直位置 */
+    margin-bottom: -4px;
+}
+</string>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="endTimeLabel">
+             <property name="text">
+              <string>10.1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="voiceBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="voiceSlider">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QSlider::groove:horizontal {
+    border: 0px solid #ff0000;
+    height: 4px;  /* 设置滑槽高度 */
+}
+
+QSlider::sub-page:horizontal {
+    background: rgb(0, 85, 255);
+    border-radius: 2px;
+}
+
+QSlider::add-page:horizontal {
+    background: rgb(255,255,255);
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: rgb(255, 255, 255);
+    border: 0px solid #666666;
+    border-radius: 6px; /* 圆形滑块 */
+    width: 12px;  /* 设置滑块宽度 */
+    height: 12px; /* 设置滑块高度 */
+    margin-top: -4px; /* 调整滑块的垂直位置 */
+    margin-bottom: -4px;
+}
+</string>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="playMusicListFormBtn">
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="playModeBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="showMusicTextBtn">
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MusicMessage</class>
+   <extends>QWidget</extends>
+   <header location="global">musicmessage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QCarousel</class>
+   <extends>QWidget</extends>
+   <header>qcarousel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

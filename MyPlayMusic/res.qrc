@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/reduce.png</file>
+        <file>img/subtract.png</file>
+        <file>img/enlarge.png</file>
+        <file>img/close.png</file>
+        <file>img/music.png</file>
+        <file>img/vertical_line.png</file>
+        <file>img/seting.png</file>
+        <file>img/email.png</file>
+        <file>img/nextMusic.png</file>
+        <file>img/preMusic.png</file>
+        <file>img/stop.png</file>
+        <file>img/play.png</file>
+        <file>img/voice.png</file>
+        <file>img/circle.png</file>
+        <file>img/showWord.png</file>
+        <file>img/collect.png</file>
+        <file>img/singer.png</file>
+        <file>img/leftMusic.png</file>
+        <file>img/leftFM.png</file>
+        <file>img/leftFriends.png</file>
+        <file>img/leftVideo.png</file>
+        <file>img/leftDownload.png</file>
+        <file>img/leftPower.png</file>
+        <file>img/add.png</file>
+        <file>img/leftMusicList.png</file>
+        <file>img/playListForm.png</file>
+        <file>CarouselImg/1.jpg</file>
+        <file>CarouselImg/2.jpg</file>
+        <file>CarouselImg/3.jpg</file>
+        <file>CarouselImg/4.jpg</file>
+        <file>CarouselImg/5.jpg</file>
+        <file>img/home.png</file>
+        <file>img/playAll.png</file>
+        <file>img/more.png</file>
+        <file>img/refresh.png</file>
+        <file>img/search.png</file>
+        <file>music/淋雨一直走+-+张韶涵.lrc</file>
+        <file>music/淋雨一直走-张韶涵.mp3</file>
+    </qresource>
+</RCC>

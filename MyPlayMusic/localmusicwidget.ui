@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LocalMusicWidget</class>
+ <widget class="QWidget" name="LocalMusicWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>685</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    background-color: transparent;    /* 背景颜色 */
+    color: black;                /* 字体颜色 */
+    font-size: 18px;                 /* 字体大小 */
+    font-family: 'Comic Sans MS';   /* 字体类型 */
+    padding: 8px;                   /* 内边距 */
+    margin: 10px;                   /* 外边距 */
+    text-align: right;              /* 文本对齐方式 */
+    border-radius: 5px;             /* 边框圆角 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string>本地音乐</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playAllMusicBtn">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: red;               /* 背景颜色 */
+    color: white;                        /* 字体颜色 */
+    font-size: 18px;                     /* 字体大小 */
+    font-family: 'Comic Sans MS';        /* 字体类型 */
+    font-weight: bold;                   /* 字体加粗 */
+    
+    padding: 10px;
+    text-align: right;                   /* 文本对齐方式 */
+    border-radius: 5px;                  /* 边框圆角 */
+    qproperty-icon: url(:/img/playAll.png);  /* 按钮图标 */
+    qproperty-iconSize: 24px 24px;       /* 图标大小 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string>播放全部</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="localMusicListWidget">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>80</y>
+      <width>531</width>
+      <height>321</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addMusicBtn">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>添加音乐</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
