@@ -1,0 +1,16 @@
+# 忽略构建中间产物
+/MyPlayMusic/release/
+/MyPlayMusic/debug/
+*.obj
+*.o
+*.exe
+*.log
+*.tmp
+
+# 忽略Qt中常见的构建文件
+*.pro.user
+*.qbsuser
+*.moc
+*.pch
+
+
