@@ -36,5 +36,6 @@
         <file>img/more.png</file>
         <file>img/refresh.png</file>
         <file>img/search.png</file>
+        <file>img/词.svg</file>
     </qresource>
 </RCC>

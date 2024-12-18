@@ -4,12 +4,11 @@
 #include <QRegularExpression>
 #include <QDebug>
 
-Lyrices::Lyrices() : offset(0) {}
+Lyrices::Lyrices() {}
 
-bool Lyrices::loadFromFile(const QString &filePath)
+bool Lyrices::loadFromFile(const QString &filePath,LyricResult &result)
 {
     QFile file(filePath);
-    // 检查文件是否存在
     if (!file.exists()) {
         qDebug() << "文件不存在:" << filePath;
         return false;
@@ -19,6 +18,7 @@ bool Lyrices::loadFromFile(const QString &filePath)
         qDebug() << "没有读取权限:" << filePath;
         return false;
     }
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "无法打开文件" << filePath;
         return false;
@@ -27,7 +27,8 @@ bool Lyrices::loadFromFile(const QString &filePath)
     QTextStream in(&file);
     in.setCodec("UTF-8");
 
-    const QRegularExpression timestampRegex(R"(\[(\d{2}):(\d{2})\.(\d{2,3})\](.+))");
+    result.lyrics.clear();
+    result.offset = 0;
 
     while (!in.atEnd()) {
         QString line = in.readLine().trimmed();
@@ -37,71 +38,71 @@ bool Lyrices::loadFromFile(const QString &filePath)
         }
 
         // 尝试解析元信息行
-        if (parseMetaInfo(line)) {
+        if (parseMetaInfo(line,result)) {
             continue;
         }
 
         // 尝试解析歌词时间戳行
-        QString text;
-        qint64 timestamp;
-        if (parseTimestampLine(line, text, timestamp)) {
-            lyrics.append({timestamp, text});
+        LyricLine lyricLine;
+        if (parseTimestampLine(line, lyricLine)) {
+            QMutexLocker locker(&result.mutex);
+            result.lyrics.append(lyricLine);
         }
     }
 
     file.close();
 
-    return !lyrics.isEmpty();
+    return !result.lyrics.isEmpty();
 }
 
-bool Lyrices::parseMetaInfo(const QString &line)
+bool Lyrices::parseMetaInfo(const QString &line, LyricResult &result)
 {
-    if (line.startsWith("[ti:")) {
-        title = line.mid(4, line.length() - 5);
-        return true;
-    }
-    if (line.startsWith("[ar:")) {
-        artist = line.mid(4, line.length() - 5);
-        return true;
-    }
-    if (line.startsWith("[al:")) {
-        album = line.mid(4, line.length() - 5);
-        return true;
-    }
-    if (line.startsWith("[by:")) {
-        by = line.mid(4, line.length() - 5);
-        return true;
-    }
-    if (line.startsWith("[offset:")) {
-        bool ok;
-        offset = line.mid(8, line.length() - 9).toInt(&ok);
-        if (ok) {
-            qDebug() << "Offset:" << offset;
+    QRegularExpression metaRegex(R"(\[(\w+):(.+)\])");
+    QRegularExpressionMatch match = metaRegex.match(line);
+
+    if (match.hasMatch()) {
+        QString key = match.captured(1).toLower();
+        QString value = match.captured(2).trimmed();
+
+        if (key == "ti"){
+            result.title = value;
+        }
+        else if (key == "ar"){
+            result.artist = value;
+        }
+        else if (key == "al"){
+            result.album = value;
+        }
+        else if (key == "by"){
+            result.by = value;
+        }
+        else if (key == "offset"){
+            result.offset = value.toInt();
         }
         return true;
     }
-
     return false;
 }
 
-bool Lyrices::parseTimestampLine(const QString &line, QString &text, qint64 &timestamp) const
+bool Lyrices::parseTimestampLine(const QString &line, LyricLine &lyricLine)
 {
     const QRegularExpression timestampRegex(R"(\[(\d{2}):(\d{2})\.(\d{2,3})\](.+))");
     QRegularExpressionMatch match = timestampRegex.match(line);
 
     if (match.hasMatch()) {
-        QString minStr = match.captured(1);
-        QString secStr = match.captured(2);
-        QString msecStr = match.captured(3);
-        text = match.captured(4);
+        int minutes = match.captured(1).toInt();
+        int seconds = match.captured(2).toInt();
+        int milliseconds = match.captured(3).toInt();
+        if (milliseconds < 100) milliseconds *= 10; // 2位数毫秒补全
 
-        timestamp = parseTimestamp(minStr + ":" + secStr + "." + msecStr);
+        lyricLine.timestamp = (minutes * 60 * 1000) + (seconds * 1000) + milliseconds;
+        lyricLine.text = match.captured(4).trimmed();
         return true;
     }
     return false;
 }
 
-qint64 Lyrices::parseTimestamp(const QString &timeStr) const
+qint64 Lyrices::parseTimestamp(const QString &timeStr)
 {
     QRegularExpression regex(R"((\d{2}):(\d{2})\.(\d{2,3}))");
     QRegularExpressionMatch match = regex.match(timeStr);
@@ -121,7 +122,7 @@ qint64 Lyrices::parseTimestamp(const QString &timeStr) const
     return 0;
 }
 
-QString Lyrices::getLyricAtTime(qint64 time) const
+QString Lyrices::getLyricAtTime(qint64 time,const QList<LyricLine> &lyrics)
 {
     int left = 0;
     int right = lyrics.size() - 1;
@@ -144,7 +145,3 @@ QString Lyrices::getLyricAtTime(qint64 time) const
     return QString();
 }
 
-QList<Lyrices::LyricLine> Lyrices::getAllLyrics() const
-{
-    return lyrics;
-}

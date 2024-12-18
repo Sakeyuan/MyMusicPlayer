@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>155</height>
+    <width>513</width>
+    <height>171</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QLabel" name="lyricsLabel">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>90</x>
      <y>80</y>
-     <width>261</width>
+     <width>321</width>
      <height>61</height>
     </rect>
    </property>
@@ -29,10 +29,10 @@
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>20</x>
      <y>10</y>
-     <width>271</width>
-     <height>61</height>
+     <width>451</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">

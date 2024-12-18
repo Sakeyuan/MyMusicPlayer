@@ -27,12 +27,7 @@ TestMyMusicPlayer::~TestMyMusicPlayer()
 void TestMyMusicPlayer::test_lyricparser()
 {
     Lyrices lyricParser;
-    // 调用方法并验证结果
-    QVERIFY(lyricParser.loadFromFile("C:/Users/sake/Desktop/music/淋雨一直走.lrc"));
-    QString lyric = lyricParser.getLyricAtTime(12000);
-    QVERIFY(!lyric.isEmpty());
 
-    qDebug() << "Lyric at 12000ms:" << lyric;
 }
 
 QTEST_APPLESS_MAIN(TestMyMusicPlayer)

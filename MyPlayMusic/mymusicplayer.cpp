@@ -8,7 +8,7 @@
 
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MyMusicPlayer)
+    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
@@ -65,7 +65,7 @@ void MyMusicPlayer::initTopABm() {
     updateButtonIcon(ui->voiceBtn,":/img/voice.png",25);
     updateButtonIcon(ui->playMusicListFormBtn,":/img/playListForm.png",25);
     updateButtonIcon(ui->playModeBtn,":/img/circle.png",25);
-    updateButtonIcon(ui->showMusicTextBtn,":/img/showWord.png",25);
+    updateButtonIcon(ui->showMusicTextBtn,":/img/词.svg",45);
 
     // 保存初始位置
     QPoint originalPos = this->pos();
@@ -139,6 +139,10 @@ public:
 MyMusicPlayer::~MyMusicPlayer()
 {
     delete ui;
+    if(lyricWidget){
+        delete lyricWidget;
+        lyricWidget = nullptr;
+    }
 }
 
 void MyMusicPlayer::setLeftTextFontSize(int size)
@@ -417,13 +421,17 @@ void MyMusicPlayer::on_playMusicListFormBtn_clicked()
 }
 
 void MyMusicPlayer::musicPlayerDurationChanged(qint64 duration) {
-    if (duration < 0) return;
+    if (duration < 0){
+        return;
+    }
     ui->musicTimeSlider->setMaximum(duration);
     ui->endTimeLabel->setText(Util::formatTime(duration));
 }
 
 void MyMusicPlayer::onPositionChanged(qint64 position) {
-    if (position < 0) return;
+    if (position < 0){
+        return;
+    }
     ui->musicTimeSlider->setSliderPosition(position);
     ui->startTimeLabel->setText(Util::formatTime(position));
 }
@@ -434,4 +442,25 @@ void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
     // player->setPosition(newPosition);
     // emit positionChanged(newPosition); // 手动发射信号
 }
+
+void MyMusicPlayer::on_showMusicTextBtn_clicked()
+{
+    if (!isShowLyrics) {
+        if (lyricWidget == nullptr) {
+            lyricWidget = new LyricCardWidget();
+        }
+        isShowLyrics = true;
+
+        if (lyricWidget) {
+            lyricWidget->show();
+        }
+    } else {
+        isShowLyrics = false;
+
+        if (lyricWidget) {
+            lyricWidget->hide();
+        }
+    }
+}
+
 

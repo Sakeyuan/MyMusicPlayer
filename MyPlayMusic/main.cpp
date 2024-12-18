@@ -10,11 +10,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    // MyMusicPlayer w;
+    MyMusicPlayer w;
     // FSearchBox w;
     // FPlayer::instance();
     //LocalMusicWidget w;
-    LyricCardWidget w;
+    // LyricCardWidget w;
     w.show();
     return a.exec();
 }

@@ -5,9 +5,12 @@
 #include <QStyle>
 #include <qevent.h>
 #include <qlistwidget.h>
+#include <QThreadPool>
+#include <QPointer>
 #include "playmusiclistform.h"
 #include "localmusicwidget.h"
 #include "util.h"
+#include "lyriccardwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MyMusicPlayer; }
@@ -45,23 +48,28 @@ private slots:
 
     void on_musicTimeSlider_sliderMoved(int position);
 
+    void on_showMusicTextBtn_clicked();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    bool dragging;                      // 标记是否正在拖动
-    QPoint dragStartPosition;           // 鼠标按下时的位置
-    QFont leftTextFont;                 // 左边标签大小
-    QWidget* findMusicWidget;           // 发现音乐堆栈窗口
-    QWidget* privateFMWidget;           // 私人FM堆栈窗口
-    QWidget* MVWidget;                  // MV堆栈窗口
-    QWidget* friendWidget;              // 朋友堆栈窗口
+    bool dragging;                              // 标记是否正在拖动
+    QPoint dragStartPosition;                   // 鼠标按下时的位置
+    QFont leftTextFont;                         // 左边标签大小
+    QWidget* findMusicWidget;                   // 发现音乐堆栈窗口
+    QWidget* privateFMWidget;                   // 私人FM堆栈窗口
+    QWidget* MVWidget;                          // MV堆栈窗口
+    QWidget* friendWidget;                      // 朋友堆栈窗口
     LocalMusicWidget* localMusicWidget;          // 本地音乐堆栈窗口
-    QWidget* downloadManagerWidget;     // 下载管理堆栈窗口
-    QWidget* myRadioWidget;             // 我的电台堆栈窗口
-    QWidget* myCollectWidget;           // 我的收藏堆栈窗口
+    QWidget* downloadManagerWidget;             // 下载管理堆栈窗口
+    QWidget* myRadioWidget;                     // 我的电台堆栈窗口
+    QWidget* myCollectWidget;                   // 我的收藏堆栈窗口
+
+    bool isShowLyrics;                          // 是否正在显示歌词
+    LyricCardWidget* lyricWidget;               // 歌词界面
 
 private:
     Ui::MyMusicPlayer *ui;
