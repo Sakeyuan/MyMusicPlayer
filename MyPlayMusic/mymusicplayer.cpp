@@ -1,14 +1,13 @@
 #include "mymusicplayer.h"
 #include "ui_mymusicplayer.h"
 
-
 #include <QtDebug>
 #include <qstring.h>
 #include <qstyleditemdelegate.h>
 
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr)
+    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(nullptr)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
@@ -23,6 +22,7 @@ MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     initCarousel();
     initLeftStackWidget();
     initBottom();
+    initPlayer();
 }
 
 void MyMusicPlayer::initTopABm() {
@@ -345,6 +345,11 @@ void MyMusicPlayer::initBottom()
      connect(this->localMusicWidget,&LocalMusicWidget::positionChanged,this,&MyMusicPlayer::onPositionChanged);
 }
 
+void MyMusicPlayer::initPlayer()
+{
+    fplayer = FPlayer::instance();
+}
+
 void MyMusicPlayer::on_shrinkBtn_clicked()
 {
     this->showMinimized();
@@ -421,6 +426,7 @@ void MyMusicPlayer::onPositionChanged(qint64 position) {
     }
     ui->musicTimeSlider->setSliderPosition(position);
     ui->startTimeLabel->setText(Util::formatTime(position));
+
 }
 
 void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)

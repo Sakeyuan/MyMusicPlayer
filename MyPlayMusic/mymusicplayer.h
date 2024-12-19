@@ -70,6 +70,7 @@ private:
 
     bool isShowLyrics;                          // 是否正在显示歌词
     LyricCardWidget* lyricWidget;               // 歌词界面
+    FPlayer* fplayer;
 
 private:
     Ui::MyMusicPlayer *ui;
@@ -80,6 +81,8 @@ private:
     void initCarousel();
     void initLeftStackWidget();
     void initBottom();
+    void initPlayer();
+
     void updateButtonIcon(QPushButton* btn, const QString &iconPath,const int iconSize);
 };
 #endif // MYMUSICPLAYER_H
