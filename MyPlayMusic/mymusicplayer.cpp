@@ -65,7 +65,7 @@ void MyMusicPlayer::initTopABm() {
     updateButtonIcon(ui->voiceBtn,":/img/voice.png",25);
     updateButtonIcon(ui->playMusicListFormBtn,":/img/playListForm.png",25);
     updateButtonIcon(ui->playModeBtn,":/img/circle.png",25);
-    updateButtonIcon(ui->showMusicTextBtn,":/img/词.svg",45);
+    updateButtonIcon(ui->showMusicTextBtn,":/img/lyric.svg",45);
 
     // 保存初始位置
     QPoint originalPos = this->pos();
@@ -139,10 +139,6 @@ public:
 MyMusicPlayer::~MyMusicPlayer()
 {
     delete ui;
-    if(lyricWidget){
-        delete lyricWidget;
-        lyricWidget = nullptr;
-    }
 }
 
 void MyMusicPlayer::setLeftTextFontSize(int size)
@@ -385,37 +381,28 @@ void MyMusicPlayer::on_createMusicListWidget_itemClicked(QListWidgetItem *item)
 
 void MyMusicPlayer::on_playMusicListFormBtn_clicked()
 {
-    // 获取或创建子窗口实例
     PlayMusicListForm* playMusicListForm = getPlayMusicListFormInstance();
 
-    // 如果窗口已经显示，隐藏它
     if (playMusicListForm->isVisible()) {
         playMusicListForm->hide();
     }
-    // 否则，显示窗口并设置为顶级无边框窗口
     else {
         playMusicListForm->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
-        // 获取父窗口的尺寸
         int parentWidth = this->width();
         int parentHeight = this->height();
 
-        // 获取父窗口的位置
         int parentX = this->x();
         int parentY = this->y();
 
-        // 获取子窗口的尺寸
         int childWidth = playMusicListForm->width();
         int childHeight = playMusicListForm->height();
 
-        // 计算子窗口的位置，使其显示在父窗口的右下角
         int x = parentX + parentWidth - childWidth;
         int y = parentY + parentHeight - childHeight;
 
-        // 移动子窗口到计算的位置
         playMusicListForm->move(x, y - ui->bottomWidget->height());
 
-        // 显示子窗口
         playMusicListForm->show();
     }
 }
@@ -447,14 +434,19 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
 {
     if (!isShowLyrics) {
         if (lyricWidget == nullptr) {
-            lyricWidget = new LyricCardWidget();
+            lyricWidget = new LyricCardWidget(this);
+            // 设置为工具窗口
+            lyricWidget->setWindowFlags(Qt::Tool);
+            // 窗口关闭时自动销毁
+            lyricWidget->setAttribute(Qt::WA_DeleteOnClose);
         }
         isShowLyrics = true;
 
         if (lyricWidget) {
             lyricWidget->show();
         }
-    } else {
+    }
+    else {
         isShowLyrics = false;
 
         if (lyricWidget) {
