@@ -6,11 +6,13 @@
 #include <qevent.h>
 #include <qlistwidget.h>
 #include <QThreadPool>
+#include <QRunnable>
 #include <QPointer>
 #include "playmusiclistform.h"
 #include "localmusicwidget.h"
 #include "util.h"
 #include "lyriccardwidget.h"
+#include "lyrices.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MyMusicPlayer; }
@@ -26,6 +28,9 @@ public:
 
     void setLeftTextFontSize(int size = 14);
     PlayMusicListForm* getPlayMusicListFormInstance();
+    bool loadLyricsAsync();
+
+    LyricResult& getLyricResult();
 
 private slots:
     void on_closeBtn_clicked();
@@ -50,6 +55,11 @@ private slots:
 
     void on_showMusicTextBtn_clicked();
 
+    void showLyrics();
+
+signals:
+    void lyricParseFinish();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -70,7 +80,10 @@ private:
 
     bool isShowLyrics;                          // 是否正在显示歌词
     LyricCardWidget* lyricWidget;               // 歌词界面
-    FPlayer* fplayer;
+    FPlayer* fplayer;                           // 播放器
+    LyricResult currentLyrics;                  // 当前歌词
+    Lyrices lyricParser;
+
 
 private:
     Ui::MyMusicPlayer *ui;
@@ -82,7 +95,20 @@ private:
     void initLeftStackWidget();
     void initBottom();
     void initPlayer();
-
+    void initLyricParser();
     void updateButtonIcon(QPushButton* btn, const QString &iconPath,const int iconSize);
+
+private:
+    struct LyricsParseTask : public QRunnable
+    {
+    public:
+        explicit LyricsParseTask(MyMusicPlayer* player)
+            : player(player) {}
+
+        void run() override;
+
+    private:
+        MyMusicPlayer* player;
+    };
 };
 #endif // MYMUSICPLAYER_H

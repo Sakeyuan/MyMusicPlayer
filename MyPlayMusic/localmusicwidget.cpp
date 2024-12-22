@@ -18,12 +18,17 @@ LocalMusicWidget::~LocalMusicWidget()
     delete ui;
 }
 
+QString LocalMusicWidget::getCurrentFilePath() const
+{
+    return this->filePath;
+}
+
 void LocalMusicWidget::on_addMusicBtn_clicked()
 {
     QStringList fileList = QFileDialog::getOpenFileNames(
                 this,
                 tr("Add music files"),
-                "音乐",
+                "D:\\Qt-Project\\MyMusicPlayer\\MyPlayMusic\\Music",
                 tr("Music Files (*.mp3 *.wav *.flac *.ogg)")
                 );
 
@@ -40,11 +45,12 @@ void LocalMusicWidget::on_localMusicListWidget_doubleClicked(const QModelIndex &
 {
     int row = index.row();
     QListWidgetItem *item = this->ui->localMusicListWidget->item(index.row());
-    QString filePath = item->data(Qt::UserRole).toString();
+    filePath = item->data(Qt::UserRole).toString();
     player->addMedia(filePath);
 
     player->setCurrentIndex(row);
     player->setPlaybackMode(QMediaPlaylist::Loop);
+
     // 获取音频时长后发射信号
     connect(player->getMediaPlayer(), &QMediaPlayer::durationChanged, this, [this](qint64 duration) {
         emit durationChanged(duration);

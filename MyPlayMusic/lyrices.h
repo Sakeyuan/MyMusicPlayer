@@ -18,7 +18,6 @@ struct LyricResult {
     QString by;                   // 歌词制作者
     int offset = 0;               // 时间偏移量
     QList<LyricLine> lyrics;      // 所有歌词行
-    QMutex mutex;                 // 多线程解析歌词互斥锁
 };
 
 class Lyrices
@@ -27,13 +26,15 @@ public:
     Lyrices();
 
     bool loadFromFile(const QString &filePath,LyricResult &result);
-    QString getLyricAtTime(qint64 time) const;
+    static QString getLyricAtTime(qint64 time,const QList<LyricLine> &lyrics);
+
+public:
+    QMutex mutex;                 // 多线程解析歌词互斥锁
 
 private:
     static bool parseMetaInfo(const QString &line,LyricResult &result);
     static bool parseTimestampLine(const QString &line, LyricLine &lyricLine);
     static qint64 parseTimestamp(const QString &timeStr);
-    static QString getLyricAtTime(qint64 time,const QList<LyricLine> &lyrics);
 
 };
 

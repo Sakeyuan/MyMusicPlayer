@@ -13,7 +13,7 @@ class LyricCardWidget : public QWidget
 public:
     explicit LyricCardWidget(QWidget *parent = nullptr);
     ~LyricCardWidget();
-
+    void setLyrics(const QString& text);
 private:
     Ui::LyricCardWidget *ui;
 };

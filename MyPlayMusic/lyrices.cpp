@@ -30,6 +30,7 @@ bool Lyrices::loadFromFile(const QString &filePath,LyricResult &result)
     result.lyrics.clear();
     result.offset = 0;
 
+    QMutexLocker locker(&mutex);
     while (!in.atEnd()) {
         QString line = in.readLine().trimmed();
 
@@ -45,7 +46,6 @@ bool Lyrices::loadFromFile(const QString &filePath,LyricResult &result)
         // 尝试解析歌词时间戳行
         LyricLine lyricLine;
         if (parseTimestampLine(line, lyricLine)) {
-            QMutexLocker locker(&result.mutex);
             result.lyrics.append(lyricLine);
         }
     }
@@ -78,6 +78,9 @@ bool Lyrices::parseMetaInfo(const QString &line, LyricResult &result)
         }
         else if (key == "offset"){
             result.offset = value.toInt();
+        }
+        else{
+            return false;
         }
         return true;
     }

@@ -15,6 +15,11 @@ class LocalMusicWidget : public QWidget
 public:
     explicit LocalMusicWidget(QWidget *parent = nullptr);
     ~LocalMusicWidget();
+    QString getCurrentFilePath() const;
+
+public:
+    QString filePath;  // 歌曲文件路径
+
 
 private slots:
     void on_addMusicBtn_clicked();

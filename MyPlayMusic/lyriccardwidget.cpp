@@ -13,3 +13,8 @@ LyricCardWidget::~LyricCardWidget()
 {
     delete ui;
 }
+
+void LyricCardWidget::setLyrics(const QString& text)
+{
+    this->ui->lyricsLabel->setText(text);
+}

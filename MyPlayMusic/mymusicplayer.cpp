@@ -155,6 +155,18 @@ PlayMusicListForm *MyMusicPlayer::getPlayMusicListFormInstance()
     return instance;
 }
 
+bool MyMusicPlayer::loadLyricsAsync()
+{
+    auto task = new LyricsParseTask(this);
+    QThreadPool::globalInstance()->start(task);
+    return true;
+}
+
+LyricResult &MyMusicPlayer::getLyricResult()
+{
+    return this->currentLyrics;
+}
+
 void MyMusicPlayer::on_closeBtn_clicked()
 {
     this->close();
@@ -271,9 +283,6 @@ void MyMusicPlayer::initCenterControl()
     ui->centerTabWidget->setStyleSheet(mainStyle);
 }
 
-/**
- * @brief 初始化轮播图
- */
 void MyMusicPlayer::initCarousel()
 {
     ui->carouselWidget->addImage(QPixmap(":/CarouselImg/1.jpg"));
@@ -337,7 +346,6 @@ void MyMusicPlayer::initLeftStackWidget()
     });
 }
 
-
 void MyMusicPlayer::initBottom()
 {
     // 音乐进度条
@@ -348,6 +356,11 @@ void MyMusicPlayer::initBottom()
 void MyMusicPlayer::initPlayer()
 {
     fplayer = FPlayer::instance();
+}
+
+void MyMusicPlayer::initLyricParser()
+{
+    connect(this,&MyMusicPlayer::lyricParseFinish,this,&MyMusicPlayer::showLyrics);
 }
 
 void MyMusicPlayer::on_shrinkBtn_clicked()
@@ -426,7 +439,11 @@ void MyMusicPlayer::onPositionChanged(qint64 position) {
     }
     ui->musicTimeSlider->setSliderPosition(position);
     ui->startTimeLabel->setText(Util::formatTime(position));
-
+    if(isShowLyrics && this->lyricWidget && this->lyricWidget->isVisible()){
+        QString lyrics = Lyrices::getLyricAtTime(position,this->currentLyrics.lyrics);
+        qDebug() << "歌词: " << lyrics;
+        this->lyricWidget->setLyrics(lyrics);
+    }
 }
 
 void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
@@ -439,18 +456,18 @@ void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
 void MyMusicPlayer::on_showMusicTextBtn_clicked()
 {
     if (!isShowLyrics) {
+        this->loadLyricsAsync();
         if (lyricWidget == nullptr) {
             lyricWidget = new LyricCardWidget(this);
             // 设置为工具窗口
             lyricWidget->setWindowFlags(Qt::Tool);
-            // 窗口关闭时自动销毁
-            lyricWidget->setAttribute(Qt::WA_DeleteOnClose);
         }
         isShowLyrics = true;
 
         if (lyricWidget) {
             lyricWidget->show();
         }
+        this->lyricWidget->setLyrics("歌词加载中......");
     }
     else {
         isShowLyrics = false;
@@ -461,4 +478,27 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
     }
 }
 
+void MyMusicPlayer::showLyrics()
+{
+    qDebug() << "-----歌词解析完毕-----";
+}
 
+void MyMusicPlayer::LyricsParseTask::run()
+{
+    Lyrices parser;
+    LyricResult result;
+    QString filePath = this->player->localMusicWidget->getCurrentFilePath();
+    filePath.replace("mp3","lrc");
+
+    bool success = parser.loadFromFile(filePath, result);
+    if (success) {
+        QMetaObject::invokeMethod(this->player, [this, result]() {
+            this->player->currentLyrics = result;
+            emit this->player->lyricParseFinish();
+        }, Qt::QueuedConnection);
+    } else {
+        QMetaObject::invokeMethod(this->player, [filePath]() {
+            qDebug() << "Failed to parse lyrics for:" << filePath;
+        }, Qt::QueuedConnection);
+    }
+}
