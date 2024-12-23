@@ -2,6 +2,7 @@
 #include "playmusiclistform.h"
 #include <QApplication>
 #include <QPushButton>
+#include <QStandardPaths>
 #include "fsearchbox.h"
 #include "localmusicwidget.h"
 #include "fplayer.h"
@@ -15,6 +16,9 @@ int main(int argc, char *argv[])
     // FPlayer::instance();
     //LocalMusicWidget w;
     // LyricCardWidget w;
+
+    QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/music.db";
+
     w.show();
     return a.exec();
 }

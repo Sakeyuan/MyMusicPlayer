@@ -1,80 +1,74 @@
-#include "databasemanager.h"
+#include "DatabaseManager.h"
 
-DatabaseManager::DatabaseManager(const QString &dbPath) : dbPath(dbPath)
+DatabaseManager::DatabaseManager(const QString &dbPath)
+    : dbPath(dbPath)
 {
-
+    db = std::unique_ptr<QSqlDatabase>(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
 }
 
-DatabaseManager::~DatabaseManager()
-{
+DatabaseManager::~DatabaseManager() {
     disconnect();
 }
 
-bool DatabaseManager::connect()
-{
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbPath);
-    if (!db.open()) {
-        qDebug() << "Failed to connect to database:" << db.lastError().text();
-        return false;
+bool DatabaseManager::connect() {
+    if (db->isOpen()) {
+        return true;
     }
 
-    qDebug() << "Database connected successfully.";
+    db->setDatabaseName(dbPath);
+    if (!db->open()) {
+        qDebug() << "Database connection failed: " << db->lastError().text();
+        return false;
+    }
     return true;
 }
 
-void DatabaseManager::disconnect()
-{
-    if (db.isOpen()) {
-        db.close();
-        qDebug() << "Database disconnected.";
+void DatabaseManager::disconnect() {
+    if (db && db->isOpen()) {
+        db->close();
     }
 }
 
-bool DatabaseManager::createTable(const QString &createSql)
-{
-    QSqlQuery query;
-    if(!query.exec(createSql)){
-        qDebug() << "Failed to create table:" << query.lastError().text();
-        return false;
-    }
-    qDebug() << "Table created or already exists.";
-    return true;
+bool DatabaseManager::createTable(const QString &createSql) {
+    return execSql(createSql);
 }
 
-bool DatabaseManager::insertData(const QString &insertSql, const QVariantMap &params)
-{
-    QSqlQuery query;
-    query.prepare(insertSql);
-    for(auto it = params.begin(); it != params.end(); ++it){
-        query.bindValue(it.key(),it.value());
+bool DatabaseManager::insertData(const QString &insertSql, const QVariantMap &params) {
+    return execSql(insertSql, params);
+}
+
+QList<QVariantMap> DatabaseManager::queryData(const QString &querySql) {
+    QList<QVariantMap> result;
+
+    QSqlQuery query(*db);
+    if (!query.exec(querySql)) {
+        qDebug() << "Query failed: " << query.lastError().text();
+        return result;
+    }
+
+    while (query.next()) {
+        QVariantMap row;
+        QSqlRecord record = query.record();
+        for (int i = 0; i < record.count(); ++i) {
+            row[record.fieldName(i)] = query.value(i);
+        }
+        result.append(row);
+    }
+    return result;
+}
+
+bool DatabaseManager::execSql(const QString &sql, const QVariantMap &params) {
+    QSqlQuery query(*db);
+    query.prepare(sql);
+
+    // 绑定参数
+    for (auto it = params.begin(); it != params.end(); ++it) {
+        query.bindValue(it.key(), it.value());
     }
 
     if (!query.exec()) {
-        qDebug() << "Failed to insert data:" << query.lastError().text();
+        qDebug() << "SQL execution failed: " << query.lastError().text();
         return false;
     }
-
-    qDebug() << "Data inserted successfully.";
     return true;
-}
-
-QList<QVariantMap> DatabaseManager::queryData(const QString &querySql)
-{
-    QList<QVariantMap>results;
-    QSqlQuery query;
-
-    if(!query.exec(querySql)){
-        qDebug() << "Failed to execute query:" << query.lastError().text();
-        return results;
-    }
-    while (query.next()) {
-        QVariantMap row;
-        for (int i = 0; i < query.record().count(); ++i){
-            row.insert(query.record().fieldName(i),query.value(i));
-        }
-        results.append(row);
-    }
-    return results;
 }

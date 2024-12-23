@@ -8,6 +8,8 @@
 #include <QString>
 #include <QStringList>
 #include <QDebug>
+#include <QVariantMap>
+#include <memory>
 
 class DatabaseManager
 {
@@ -22,7 +24,9 @@ public:
     QList<QVariantMap> queryData(const QString &querySql);
 
 private:
-    QSqlDatabase db;
+    bool execSql(const QString &sql, const QVariantMap &params = QVariantMap());
+
+    std::unique_ptr<QSqlDatabase> db;
     QString dbPath;
 };
 

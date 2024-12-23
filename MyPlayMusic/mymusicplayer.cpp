@@ -1,9 +1,11 @@
 #include "mymusicplayer.h"
 #include "ui_mymusicplayer.h"
 
+#include <QDir>
 #include <QtDebug>
-#include <qstring.h>
+#include <QString>
 #include <qstyleditemdelegate.h>
+#include <QStandardPaths>
 
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
@@ -23,6 +25,7 @@ MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     initLeftStackWidget();
     initBottom();
     initPlayer();
+    initDataBase();
 }
 
 void MyMusicPlayer::initTopABm() {
@@ -356,6 +359,41 @@ void MyMusicPlayer::initBottom()
 void MyMusicPlayer::initPlayer()
 {
     fplayer = FPlayer::instance();
+}
+
+void MyMusicPlayer::initDataBase()
+{
+    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbPath = appDataPath + "/music.db";
+    QDir dir(appDataPath);
+    if(!dir.exists() && !dir.mkpath(appDataPath)){
+        qDebug() << "Failed to create directory:" << appDataPath;
+        return;
+    }
+
+    DatabaseManager dbManager(dbPath);
+
+    // 创建表
+    QString createSql = R"(
+        CREATE TABLE IF NOT EXISTS MusicLibrary (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filePath TEXT UNIQUE NOT NULL,
+            fileName TEXT NOT NULL,
+            artist TEXT,
+            album TEXT,
+            genre TEXT,
+            duration INTEGER,
+            fileSize INTEGER,
+            bitrate INTEGER
+        );
+    )";
+
+    // 创建表
+    if (!dbManager.createTable(createSql)) {
+        qDebug() << "Failed to create table.";
+        return;
+    }
+    qDebug() << "Table created successfully.";
 }
 
 void MyMusicPlayer::initLyricParser()

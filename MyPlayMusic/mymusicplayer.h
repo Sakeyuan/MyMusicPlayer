@@ -13,6 +13,7 @@
 #include "util.h"
 #include "lyriccardwidget.h"
 #include "lyrices.h"
+#include "databasemanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MyMusicPlayer; }
@@ -95,6 +96,7 @@ private:
     void initLeftStackWidget();
     void initBottom();
     void initPlayer();
+    void initDataBase();
     void initLyricParser();
     void updateButtonIcon(QPushButton* btn, const QString &iconPath,const int iconSize);
 
