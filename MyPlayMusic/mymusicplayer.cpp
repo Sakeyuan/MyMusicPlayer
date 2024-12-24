@@ -373,6 +373,11 @@ void MyMusicPlayer::initDataBase()
 
     DatabaseManager dbManager(dbPath);
 
+    if (!dbManager.connect()) {
+        qWarning() << "Failed to connect to the database at:" << dbPath;
+        return;
+    }
+
     // 创建表
     QString createSql = R"(
         CREATE TABLE IF NOT EXISTS MusicLibrary (
