@@ -14,6 +14,7 @@
 #include "lyriccardwidget.h"
 #include "lyrices.h"
 #include "databasemanager.h"
+#include "queries.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MyMusicPlayer; }
@@ -33,6 +34,7 @@ public:
 
     LyricResult& getLyricResult();
 
+    void loadMusicFromDatabase();
 private slots:
     void on_closeBtn_clicked();
 

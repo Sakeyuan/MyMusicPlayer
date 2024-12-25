@@ -364,7 +364,7 @@ void MyMusicPlayer::initPlayer()
 void MyMusicPlayer::initDataBase()
 {
     QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QString dbPath = appDataPath + "/music.db";
+    QString dbPath = appDataPath + "/" + SqlQueries::databaseName;
     QDir dir(appDataPath);
     if(!dir.exists() && !dir.mkpath(appDataPath)){
         qDebug() << "Failed to create directory:" << appDataPath;
@@ -379,22 +379,7 @@ void MyMusicPlayer::initDataBase()
     }
 
     // 创建表
-    QString createSql = R"(
-        CREATE TABLE IF NOT EXISTS MusicLibrary (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            filePath TEXT UNIQUE NOT NULL,
-            fileName TEXT NOT NULL,
-            artist TEXT,
-            album TEXT,
-            genre TEXT,
-            duration INTEGER,
-            fileSize INTEGER,
-            bitrate INTEGER
-        );
-    )";
-
-    // 创建表
-    if (!dbManager.createTable(createSql)) {
+    if (!dbManager.createTable(SqlQueries::CreateMusicLibraryTable)) {
         qDebug() << "Failed to create table.";
         return;
     }
