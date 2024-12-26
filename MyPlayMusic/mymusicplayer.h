@@ -8,6 +8,7 @@
 #include <QThreadPool>
 #include <QRunnable>
 #include <QPointer>
+#include <QMutex>
 #include "playmusiclistform.h"
 #include "localmusicwidget.h"
 #include "util.h"
@@ -86,7 +87,7 @@ private:
     LyricResult currentLyrics;                  // 当前歌词
     Lyrices lyricParser;
 
-
+    QMutex mutex;
 private:
     Ui::MyMusicPlayer *ui;
 

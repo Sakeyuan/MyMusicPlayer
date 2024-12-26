@@ -97,6 +97,7 @@ void LocalMusicWidget::on_localMusicListWidget_doubleClicked(const QModelIndex &
     connect(player->getMediaPlayer(), &QMediaPlayer::positionChanged, this, [this](qint64 position) {
             emit positionChanged(position);
         });
+
     player->play();
 }
 

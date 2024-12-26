@@ -148,3 +148,13 @@ QString Lyrices::getLyricAtTime(qint64 time,const QList<LyricLine> &lyrics)
     return QString();
 }
 
+void Lyrices::clearLyricResult(LyricResult &lyricResult)
+{
+    lyricResult.title = "";
+    lyricResult.artist = "";
+    lyricResult.album = "";
+    lyricResult.by = "";
+    lyricResult.offset = 0;
+    lyricResult.lyrics.clear();
+}
+

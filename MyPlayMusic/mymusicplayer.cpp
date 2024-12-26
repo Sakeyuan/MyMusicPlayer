@@ -359,6 +359,15 @@ void MyMusicPlayer::initBottom()
 void MyMusicPlayer::initPlayer()
 {
     fplayer = FPlayer::instance();
+    connect(fplayer->getMediaPlayerlist(), &QMediaPlaylist::currentIndexChanged, this, [this](int newIndex) {
+        if (newIndex >= 0) {
+            QMutexLocker locker(&mutex);
+            if(this->currentLyrics.isValid()){
+                Lyrices::clearLyricResult(this->currentLyrics);
+            }
+            this->loadLyricsAsync();
+        }
+    });
 }
 
 void MyMusicPlayer::initDataBase()
@@ -475,7 +484,7 @@ void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
 void MyMusicPlayer::on_showMusicTextBtn_clicked()
 {
     if (!isShowLyrics) {
-        this->loadLyricsAsync();
+        //this->loadLyricsAsync();
         if (lyricWidget == nullptr) {
             lyricWidget = new LyricCardWidget(this);
             // 设置为工具窗口
@@ -515,7 +524,8 @@ void MyMusicPlayer::LyricsParseTask::run()
             this->player->currentLyrics = result;
             emit this->player->lyricParseFinish();
         }, Qt::QueuedConnection);
-    } else {
+    }
+    else {
         QMetaObject::invokeMethod(this->player, [filePath]() {
             qDebug() << "Failed to parse lyrics for:" << filePath;
         }, Qt::QueuedConnection);
