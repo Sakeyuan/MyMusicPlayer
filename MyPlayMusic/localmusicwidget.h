@@ -16,7 +16,7 @@ public:
     explicit LocalMusicWidget(QWidget *parent = nullptr);
     ~LocalMusicWidget();
     QString getCurrentFilePath() const;
-
+    void loadMusicFromDatabase();
 public:
     QString filePath;  // 歌曲文件路径
 

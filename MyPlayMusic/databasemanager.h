@@ -9,12 +9,11 @@
 #include <QStringList>
 #include <QDebug>
 #include <QVariantMap>
-#include <memory>
 
 class DatabaseManager
 {
 public:
-    explicit DatabaseManager(const QString &dbPath);
+    explicit DatabaseManager();
     ~DatabaseManager();
 
     bool connect();
@@ -26,7 +25,7 @@ public:
 private:
     bool execSql(const QString &sql, const QVariantMap &params = QVariantMap());
 
-    std::unique_ptr<QSqlDatabase> db;
+    QSqlDatabase* db;
     QString dbPath;
 };
 

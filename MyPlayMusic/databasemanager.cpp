@@ -1,9 +1,21 @@
-#include "DatabaseManager.h"
+#include "databasemanager.h"
+#include "queries.h"
+#include <QDir>
+#include <QStandardPaths>
 
-DatabaseManager::DatabaseManager(const QString &dbPath)
-    : dbPath(dbPath)
+DatabaseManager::DatabaseManager()
 {
-    db = std::unique_ptr<QSqlDatabase>(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
+    db =new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir dir(appDataPath);
+    if(!dir.exists() && !dir.mkpath(appDataPath)){
+        qDebug() << "Failed to create directory:" << appDataPath;
+        return;
+    }
+    dbPath = appDataPath + "/" + SqlQueries::databaseName;
+    if(!connect()){
+        qDebug() << "Failed to connect db :" << appDataPath;
+    }
 }
 
 DatabaseManager::~DatabaseManager() {
@@ -11,6 +23,11 @@ DatabaseManager::~DatabaseManager() {
 }
 
 bool DatabaseManager::connect() {
+    if (!db->isValid()) {
+           qDebug() << "Invalid database connection.";
+           return false;
+    }
+
     if (db->isOpen()) {
         return true;
     }

@@ -16,13 +16,17 @@ namespace SqlQueries {
             genre TEXT,
             duration INTEGER,
             fileSize INTEGER,
-            bitrate INTEGER
+            bitrate INTEGER,
+            lyrics TEXT
         );
     )";
 
+    const QString CheckMusicExists = R"(
+        SELECT id FROM MusicLibrary WHERE filePath = :filePath
+    )";
+
     const QString InsertMusic = R"(
-        INSERT OR IGNORE INTO MusicLibrary (filePath, fileName)
-        VALUES (:filePath, :fileName);
+        INSERT INTO MusicLibrary (filePath, fileName) VALUES (:filePath, :fileName)
     )";
 
     const QString SelectAllMusic = R"(

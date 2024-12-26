@@ -34,7 +34,6 @@ public:
 
     LyricResult& getLyricResult();
 
-    void loadMusicFromDatabase();
 private slots:
     void on_closeBtn_clicked();
 

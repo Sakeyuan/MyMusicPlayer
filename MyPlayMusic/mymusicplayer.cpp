@@ -363,18 +363,9 @@ void MyMusicPlayer::initPlayer()
 
 void MyMusicPlayer::initDataBase()
 {
-    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QString dbPath = appDataPath + "/" + SqlQueries::databaseName;
-    QDir dir(appDataPath);
-    if(!dir.exists() && !dir.mkpath(appDataPath)){
-        qDebug() << "Failed to create directory:" << appDataPath;
-        return;
-    }
-
-    DatabaseManager dbManager(dbPath);
-
+    DatabaseManager dbManager;
     if (!dbManager.connect()) {
-        qWarning() << "Failed to connect to the database at:" << dbPath;
+        qWarning() << "Failed to connect to the database at:";
         return;
     }
 

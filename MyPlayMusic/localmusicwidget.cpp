@@ -1,6 +1,7 @@
 #include "localmusicwidget.h"
 #include "ui_localmusicwidget.h"
-
+#include "databasemanager.h"
+#include "queries.h"
 
 #include <QFileDialog>
 #include <QMediaMetaData>
@@ -11,6 +12,7 @@ LocalMusicWidget::LocalMusicWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     player = FPlayer::instance();
+    loadMusicFromDatabase();
 }
 
 LocalMusicWidget::~LocalMusicWidget()
@@ -23,20 +25,57 @@ QString LocalMusicWidget::getCurrentFilePath() const
     return this->filePath;
 }
 
+void LocalMusicWidget::loadMusicFromDatabase()
+{
+    DatabaseManager dbManager;
+    QList<QVariantMap> musicLists = dbManager.queryData(SqlQueries::SelectAllMusic);
+    for(const auto &music : musicLists){
+        QString musicName = music.value("fileName").toString();
+        QString filePath = music.value("filePath").toString();
+        QListWidgetItem *item = new QListWidgetItem(musicName, this->ui->localMusicListWidget);
+        item->setData(Qt::UserRole,filePath);
+        this->ui->localMusicListWidget->addItem(item);
+    }
+}
+
 void LocalMusicWidget::on_addMusicBtn_clicked()
 {
     QStringList fileList = QFileDialog::getOpenFileNames(
-                this,
-                tr("Add music files"),
-                "D:\\Qt-Project\\MyMusicPlayer\\MyPlayMusic\\Music",
-                tr("Music Files (*.mp3 *.wav *.flac *.ogg)")
-                );
+        this,
+        tr("Add music files"),
+        "D:\\Qt-Project\\MyMusicPlayer\\MyPlayMusic\\Music",
+        tr("Music Files (*.mp3 *.wav *.flac *.ogg)")
+    );
+
+    if (fileList.isEmpty()) {
+        return;
+    }
+
+    DatabaseManager dbManager;
 
     for (const QString &filePath : fileList) {
         QFileInfo fileInfo(filePath);
         QString musicName = fileInfo.completeBaseName();
+
+        QVariantMap checkParams;
+        checkParams[":filePath"] = filePath;
+
+        if (!dbManager.insertData(SqlQueries::CheckMusicExists, checkParams)) {
+            qDebug() << "Music already exists in the database: " << filePath;
+            continue;
+        }
+
+        QVariantMap insertParams;
+        insertParams[":filePath"] = filePath;
+        insertParams[":fileName"] = musicName;
+
+        if (!dbManager.insertData(SqlQueries::InsertMusic, insertParams)) {
+            qDebug() << "Failed to insert music into database: " << filePath;
+            continue;
+        }
+
         QListWidgetItem *item = new QListWidgetItem(musicName, this->ui->localMusicListWidget);
-        item->setData(Qt::UserRole,filePath);
+        item->setData(Qt::UserRole, filePath);
         this->ui->localMusicListWidget->addItem(item);
     }
 }
