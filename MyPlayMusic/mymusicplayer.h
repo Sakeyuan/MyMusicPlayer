@@ -106,13 +106,13 @@ private:
     struct LyricsParseTask : public QRunnable
     {
     public:
-        explicit LyricsParseTask(MyMusicPlayer* player)
-            : player(player) {}
+        explicit LyricsParseTask(MyMusicPlayer* mainWin)
+            : mainWin(mainWin) {}
 
         void run() override;
 
     private:
-        MyMusicPlayer* player;
+        MyMusicPlayer* mainWin;
     };
 };
 #endif // MYMUSICPLAYER_H

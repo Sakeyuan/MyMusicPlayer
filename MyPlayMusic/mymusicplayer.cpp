@@ -361,8 +361,8 @@ void MyMusicPlayer::initPlayer()
     fplayer = FPlayer::instance();
     connect(fplayer->getMediaPlayerlist(), &QMediaPlaylist::currentIndexChanged, this, [this](int newIndex) {
         if (newIndex >= 0) {
-            QMutexLocker locker(&mutex);
             if(this->currentLyrics.isValid()){
+                QMutexLocker locker(&mutex);
                 Lyrices::clearLyricResult(this->currentLyrics);
             }
             this->loadLyricsAsync();
@@ -515,18 +515,18 @@ void MyMusicPlayer::LyricsParseTask::run()
 {
     Lyrices parser;
     LyricResult result;
-    QString filePath = this->player->localMusicWidget->getCurrentFilePath();
+    QString filePath = this->mainWin->localMusicWidget->getCurrentFilePath();
     filePath.replace("mp3","lrc");
 
     bool success = parser.loadFromFile(filePath, result);
     if (success) {
-        QMetaObject::invokeMethod(this->player, [this, result]() {
-            this->player->currentLyrics = result;
-            emit this->player->lyricParseFinish();
+        QMetaObject::invokeMethod(this->mainWin, [this, result]() {
+            this->mainWin->currentLyrics = result;
+            emit this->mainWin->lyricParseFinish();
         }, Qt::QueuedConnection);
     }
     else {
-        QMetaObject::invokeMethod(this->player, [filePath]() {
+        QMetaObject::invokeMethod(this->mainWin, [filePath]() {
             qDebug() << "Failed to parse lyrics for:" << filePath;
         }, Qt::QueuedConnection);
     }
