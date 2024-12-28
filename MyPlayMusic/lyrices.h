@@ -25,7 +25,7 @@ struct LyricResult {
     }
 };
 
-Q_DECLARE_METATYPE(LyricResult) // 声明 LyricResult 为元类型
+Q_DECLARE_METATYPE(LyricResult)    // 声明 LyricResult 为元类型
 
 class Lyrices
 {
