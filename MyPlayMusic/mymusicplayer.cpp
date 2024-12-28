@@ -343,19 +343,19 @@ void MyMusicPlayer::initLeftStackWidget()
         ui->mainCenterStackedWidget->addWidget(page);
     }
 
-    // 默认显示第一个页面
     ui->mainCenterStackedWidget->setCurrentIndex(0);
 
-    connect(ui->recommendListWidget, &QListWidget::currentRowChanged, this, [this, recommendOffset](int index) {
-        qDebug() << "recommendListWidget index changed:" << index;
+    connect(ui->recommendListWidget, &QListWidget::itemClicked, this, [this, recommendOffset](QListWidgetItem* item) {
+        int index = ui->recommendListWidget->row(item);
         ui->mainCenterStackedWidget->setCurrentIndex(recommendOffset + index);
     });
 
-    connect(ui->myMusicListWidget, &QListWidget::currentRowChanged, this, [this, musicListOffset](int index) {
-        qDebug() << "myMusicListWidget index changed:" << index;
+    connect(ui->myMusicListWidget, &QListWidget::itemClicked, this, [this, musicListOffset](QListWidgetItem* item) {
+        int index = ui->myMusicListWidget->row(item);
         ui->mainCenterStackedWidget->setCurrentIndex(musicListOffset + index);
     });
 }
+
 
 void MyMusicPlayer::initBottom()
 {

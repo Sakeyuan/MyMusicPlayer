@@ -19,9 +19,34 @@
     由于歌词解析类属于嵌套类，不能使用Qt的信号与槽，所以得把歌词解析类提取出来</span> 
   - <span style="color:red;"> 
     需要在信号与槽传递自定义的类，需要在程序中注册元类型 </span> 
-  ```C#
+  ```C++
     #include <QMetaType>
     Q_DECLARE_METATYPE(LyricResult) //类中 声明 LyricResult 为元类型
     qRegisterMetaType<LyricResult>("LyricResult");
   ```
 - 发现一个问题，从推荐窗口跨QListWidget切换到我的音乐QListWidget的时候有问题，切换不过来，得先选中QListWidget中的项才行
+  ```   
+   connect(ui->recommendListWidget, &QListWidget::currentRowChanged, this, [this, recommendOffset](int index) {
+          qDebug() << "recommendListWidget index changed:" << index;
+          ui->mainCenterStackedWidget->setCurrentIndex(recommendOffset + index);
+      });
+
+      connect(ui->myMusicListWidget, &QListWidget::currentRowChanged, this, [this, musicListOffset](int index) {
+          qDebug() << "myMusicListWidget index changed:" << index;
+          ui->mainCenterStackedWidget->setCurrentIndex(musicListOffset + index);
+      });
+  ```
+
+  替换(因为从一个QListWidget切换到另一个QListWidget没有引起currentRowChanged的变化)
+
+  ```
+      connect(ui->recommendListWidget, &QListWidget::itemClicked, this, [this, recommendOffset](QListWidgetItem* item) {
+        int index = ui->recommendListWidget->row(item);
+        ui->mainCenterStackedWidget->setCurrentIndex(recommendOffset + index);
+    });
+
+    connect(ui->myMusicListWidget, &QListWidget::itemClicked, this, [this, musicListOffset](QListWidgetItem* item) {
+        int index = ui->myMusicListWidget->row(item);
+        ui->mainCenterStackedWidget->setCurrentIndex(musicListOffset + index);
+    });
+  ```
