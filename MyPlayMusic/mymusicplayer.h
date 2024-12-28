@@ -16,6 +16,7 @@
 #include "lyrices.h"
 #include "databasemanager.h"
 #include "queries.h"
+#include "lyricsparsetask.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MyMusicPlayer; }
@@ -58,10 +59,9 @@ private slots:
 
     void on_showMusicTextBtn_clicked();
 
-    void showLyrics();
+    void showLyrics(const LyricResult &result);
 
-signals:
-    void lyricParseFinish();
+
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -101,18 +101,5 @@ private:
     void initDataBase();
     void initLyricParser();
     void updateButtonIcon(QPushButton* btn, const QString &iconPath,const int iconSize);
-
-private:
-    struct LyricsParseTask : public QRunnable
-    {
-    public:
-        explicit LyricsParseTask(MyMusicPlayer* mainWin)
-            : mainWin(mainWin) {}
-
-        void run() override;
-
-    private:
-        MyMusicPlayer* mainWin;
-    };
 };
 #endif // MYMUSICPLAYER_H

@@ -160,10 +160,22 @@ PlayMusicListForm *MyMusicPlayer::getPlayMusicListFormInstance()
 
 bool MyMusicPlayer::loadLyricsAsync()
 {
-    auto task = new LyricsParseTask(this);
+    qDebug() << "解析歌词中......";
+    QString filePath = this->localMusicWidget->filePath;
+    auto *task = new LyricsParseTask(filePath);
+
+    connect(task, &LyricsParseTask::lyricParseFinish, this, &MyMusicPlayer::showLyrics);
+    connect(task, &LyricsParseTask::lyricParseFailed, this, [](const QString &filePath) {
+        qDebug() << "Failed to parse lyrics for:" << filePath;
+    });
+
+    task->setAutoDelete(true);
+
     QThreadPool::globalInstance()->start(task);
+
     return true;
 }
+
 
 LyricResult &MyMusicPlayer::getLyricResult()
 {
@@ -251,37 +263,37 @@ void MyMusicPlayer::initLeftControl()
 void MyMusicPlayer::initCenterControl()
 {
     QString mainStyle =
-        "QTabWidget::pane#centerTabWidget {"
-        "    border-top: 2px solid #00C2C7CB;"
-        "    position: absolute;"
-        "    top: 10px;"
-        "    background: #002d2f33;"
-        "}"
-        "QTabWidget#centerTabWidget::tab-bar {"
-        "    alignment: center;"
-        "}"
-        // Tab bar styling
-        "QTabBar::tab {"
-        "    background: #00000000;"
-        "    border: none;"
-        "    border-bottom: 1.5px solid #dcdde4;"
-        "    min-width: 10px;"
-        "    margin-right: 20px;"
-        "    padding-left: 20px;"
-        "    padding-right: 20px;"
-        "    padding-top: 5px;"
-        "    padding-bottom: 5px;"
-        "    color: #686a6e;"
-        "    font-size: 12px;"
-        "}"
-        "QTabBar::tab:hover {"
-        "    background: rgb(240, 243, 246);"
-        "}"
-        "QTabBar::tab:selected {"
-        "    border-color: #3a3a3f;"
-        "    color: #3c3e42;"
-        "    border-bottom-color: #3c3e42;"
-        "}";
+            "QTabWidget::pane#centerTabWidget {"
+            "    border-top: 2px solid #00C2C7CB;"
+            "    position: absolute;"
+            "    top: 10px;"
+            "    background: #002d2f33;"
+            "}"
+            "QTabWidget#centerTabWidget::tab-bar {"
+            "    alignment: center;"
+            "}"
+            // Tab bar styling
+            "QTabBar::tab {"
+            "    background: #00000000;"
+            "    border: none;"
+            "    border-bottom: 1.5px solid #dcdde4;"
+            "    min-width: 10px;"
+            "    margin-right: 20px;"
+            "    padding-left: 20px;"
+            "    padding-right: 20px;"
+            "    padding-top: 5px;"
+            "    padding-bottom: 5px;"
+            "    color: #686a6e;"
+            "    font-size: 12px;"
+            "}"
+            "QTabBar::tab:hover {"
+            "    background: rgb(240, 243, 246);"
+            "}"
+            "QTabBar::tab:selected {"
+            "    border-color: #3a3a3f;"
+            "    color: #3c3e42;"
+            "    border-bottom-color: #3c3e42;"
+            "}";
 
     ui->centerTabWidget->setStyleSheet(mainStyle);
 }
@@ -352,8 +364,8 @@ void MyMusicPlayer::initLeftStackWidget()
 void MyMusicPlayer::initBottom()
 {
     // 音乐进度条
-     connect(this->localMusicWidget,&LocalMusicWidget::durationChanged,this,&MyMusicPlayer::musicPlayerDurationChanged);
-     connect(this->localMusicWidget,&LocalMusicWidget::positionChanged,this,&MyMusicPlayer::onPositionChanged);
+    connect(this->localMusicWidget,&LocalMusicWidget::durationChanged,this,&MyMusicPlayer::musicPlayerDurationChanged);
+    connect(this->localMusicWidget,&LocalMusicWidget::positionChanged,this,&MyMusicPlayer::onPositionChanged);
 }
 
 void MyMusicPlayer::initPlayer()
@@ -388,7 +400,7 @@ void MyMusicPlayer::initDataBase()
 
 void MyMusicPlayer::initLyricParser()
 {
-    connect(this,&MyMusicPlayer::lyricParseFinish,this,&MyMusicPlayer::showLyrics);
+
 }
 
 void MyMusicPlayer::on_shrinkBtn_clicked()
@@ -484,7 +496,7 @@ void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
 void MyMusicPlayer::on_showMusicTextBtn_clicked()
 {
     if (!isShowLyrics) {
-        //this->loadLyricsAsync();
+        this->loadLyricsAsync();
         if (lyricWidget == nullptr) {
             lyricWidget = new LyricCardWidget(this);
             // 设置为工具窗口
@@ -506,28 +518,9 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
     }
 }
 
-void MyMusicPlayer::showLyrics()
+void MyMusicPlayer::showLyrics(const LyricResult &result)
 {
+    this->currentLyrics = result;
     qDebug() << "-----歌词解析完毕-----";
 }
 
-void MyMusicPlayer::LyricsParseTask::run()
-{
-    Lyrices parser;
-    LyricResult result;
-    QString filePath = this->mainWin->localMusicWidget->getCurrentFilePath();
-    filePath.replace("mp3","lrc");
-
-    bool success = parser.loadFromFile(filePath, result);
-    if (success) {
-        QMetaObject::invokeMethod(this->mainWin, [this, result]() {
-            this->mainWin->currentLyrics = result;
-            emit this->mainWin->lyricParseFinish();
-        }, Qt::QueuedConnection);
-    }
-    else {
-        QMetaObject::invokeMethod(this->mainWin, [filePath]() {
-            qDebug() << "Failed to parse lyrics for:" << filePath;
-        }, Qt::QueuedConnection);
-    }
-}

@@ -8,10 +8,12 @@
 #include "fplayer.h"
 #include "lyriccardwidget.h"
 #include "lyrices.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MyMusicPlayer w;
+    qRegisterMetaType<LyricResult>("LyricResult");
     // FSearchBox w;
     // FPlayer::instance();
     //LocalMusicWidget w;
@@ -22,3 +24,7 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
+
+
+

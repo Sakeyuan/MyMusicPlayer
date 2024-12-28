@@ -16,6 +16,7 @@ SOURCES += \
     localmusicwidget.cpp \
     lyriccardwidget.cpp \
     lyrices.cpp \
+    lyricsparsetask.cpp \
     main.cpp \
     musicmessage.cpp \
     mymusicplayer.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     localmusicwidget.h \
     lyriccardwidget.h \
     lyrices.h \
+    lyricsparsetask.h \
     musicmessage.h \
     mymusicplayer.h \
     playmusiclistform.h \

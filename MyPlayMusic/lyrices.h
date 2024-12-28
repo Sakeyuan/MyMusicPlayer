@@ -5,6 +5,7 @@
 #include <QList>
 #include <QThreadPool>
 #include <QMutex>
+#include <QMetaType>
 
 struct LyricLine {
     qint64 timestamp; // 时间戳
@@ -23,6 +24,8 @@ struct LyricResult {
         return !title.isEmpty() && !artist.isEmpty() && !lyrics.isEmpty();
     }
 };
+
+Q_DECLARE_METATYPE(LyricResult) // 声明 LyricResult 为元类型
 
 class Lyrices
 {
