@@ -37,7 +37,7 @@ public:
     static void clearLyricResult(LyricResult& lyricResult);
 
 public:
-    QMutex mutex;                 // 多线程解析歌词互斥锁
+    QMutex mutex;
 
 private:
     static bool parseMetaInfo(const QString &line,LyricResult &result);

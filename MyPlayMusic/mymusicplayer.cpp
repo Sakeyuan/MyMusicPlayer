@@ -343,20 +343,16 @@ void MyMusicPlayer::initLeftStackWidget()
         ui->mainCenterStackedWidget->addWidget(page);
     }
 
-    // 设置初始页面
-    ui->mainCenterStackedWidget->setCurrentIndex(0);
-
-
     // 默认显示第一个页面
     ui->mainCenterStackedWidget->setCurrentIndex(0);
 
-    // 为 recommendListWidget 连接信号和槽
     connect(ui->recommendListWidget, &QListWidget::currentRowChanged, this, [this, recommendOffset](int index) {
+        qDebug() << "recommendListWidget index changed:" << index;
         ui->mainCenterStackedWidget->setCurrentIndex(recommendOffset + index);
     });
 
-    // 为 myMusicListWidget 连接信号和槽
     connect(ui->myMusicListWidget, &QListWidget::currentRowChanged, this, [this, musicListOffset](int index) {
+        qDebug() << "myMusicListWidget index changed:" << index;
         ui->mainCenterStackedWidget->setCurrentIndex(musicListOffset + index);
     });
 }

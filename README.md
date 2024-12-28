@@ -19,9 +19,9 @@
     由于歌词解析类属于嵌套类，不能使用Qt的信号与槽，所以得把歌词解析类提取出来</span> 
   - <span style="color:red;"> 
     需要在信号与槽传递自定义的类，需要在程序中注册元类型 </span> 
-
   ```C#
     #include <QMetaType>
     Q_DECLARE_METATYPE(LyricResult) //类中 声明 LyricResult 为元类型
     qRegisterMetaType<LyricResult>("LyricResult");
   ```
+- 发现一个问题，从推荐窗口跨QListWidget切换到我的音乐QListWidget的时候有问题，切换不过来，得先选中QListWidget中的项才行
