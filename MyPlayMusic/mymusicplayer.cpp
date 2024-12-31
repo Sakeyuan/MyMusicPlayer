@@ -166,6 +166,10 @@ bool MyMusicPlayer::loadLyricsAsync()
 {
     qDebug() << "解析歌词中......";
     QString filePath = this->localMusicWidget->filePath;
+    if(filePath.isEmpty()){
+        qDebug() << "歌曲为空";
+        return false;
+    }
     auto *task = new LyricsParseTask(filePath);
 
     connect(task, &LyricsParseTask::lyricParseFinish, this, &MyMusicPlayer::showLyrics);
@@ -381,7 +385,6 @@ void MyMusicPlayer::initPlayer()
     connect(fplayer->getMediaPlayer(),&QMediaPlayer::stateChanged,[this](QMediaPlayer::State state){
                 this->playerState = state;
             });
-
 }
 
 void MyMusicPlayer::initDataBase()

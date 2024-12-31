@@ -18,8 +18,6 @@ public:
     void pause();
     void stop();
 
-
-
     // 设置音量
     void setVolume(int volume);
 
@@ -54,7 +52,7 @@ private slots:
 private:
     QMediaPlayer* m_mediaPlayer;
     QMediaPlaylist* m_playlist;
-
+    QString filePath = "";
     static FPlayer* m_instance;
 };
 

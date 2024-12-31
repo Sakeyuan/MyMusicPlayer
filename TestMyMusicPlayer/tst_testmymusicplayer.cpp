@@ -5,6 +5,11 @@
 #include "../MyPlayMusic/lyrices.h"
 #include "../MyPlayMusic/databasemanager.h"
 
+class myClass{
+public:
+    QString a = "a";
+};
+
 class TestMyMusicPlayer : public QObject
 {
     Q_OBJECT
@@ -88,6 +93,8 @@ void TestMyMusicPlayer::test_lyricparser()
 
     // #endregion 歌词解析器测试代码
 
+    myClass* My= new myClass();
+    qDebug() << My->a;
 }
 
 QTEST_APPLESS_MAIN(TestMyMusicPlayer)
