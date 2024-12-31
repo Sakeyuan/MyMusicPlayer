@@ -12,6 +12,17 @@ LocalMusicWidget::LocalMusicWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     player = FPlayer::instance();
+
+    connect(player->getMediaPlayer(), &QMediaPlayer::durationChanged, this, [this](qint64 duration) {
+        emit durationChanged(duration);
+    });
+
+    connect(player->getMediaPlayer(), &QMediaPlayer::positionChanged, this, [this](qint64 position) {
+            emit positionChanged(position);
+        });
+
+    player->setPlaybackMode(QMediaPlaylist::Loop);
+
     loadMusicFromDatabase();
 }
 
@@ -35,6 +46,7 @@ void LocalMusicWidget::loadMusicFromDatabase()
         QListWidgetItem *item = new QListWidgetItem(musicName, this->ui->localMusicListWidget);
         item->setData(Qt::UserRole,filePath);
         this->ui->localMusicListWidget->addItem(item);
+        this->player->addMedia(filePath);
     }
 }
 
@@ -77,27 +89,16 @@ void LocalMusicWidget::on_addMusicBtn_clicked()
         QListWidgetItem *item = new QListWidgetItem(musicName, this->ui->localMusicListWidget);
         item->setData(Qt::UserRole, filePath);
         this->ui->localMusicListWidget->addItem(item);
+        this->player->addMedia(filePath);
     }
 }
 
 void LocalMusicWidget::on_localMusicListWidget_doubleClicked(const QModelIndex &index)
 {
     int row = index.row();
-    QListWidgetItem *item = this->ui->localMusicListWidget->item(index.row());
+    QListWidgetItem *item = this->ui->localMusicListWidget->item(row);
     filePath = item->data(Qt::UserRole).toString();
-    player->addMedia(filePath);
-
-    player->setCurrentIndex(row);
-    player->setPlaybackMode(QMediaPlaylist::Loop);
-
-    // 获取音频时长后发射信号
-    connect(player->getMediaPlayer(), &QMediaPlayer::durationChanged, this, [this](qint64 duration) {
-        emit durationChanged(duration);
-    });
-    connect(player->getMediaPlayer(), &QMediaPlayer::positionChanged, this, [this](qint64 position) {
-            emit positionChanged(position);
-        });
-
+    player->setMedia(filePath);
     player->play();
 }
 

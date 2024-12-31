@@ -61,7 +61,7 @@ private slots:
 
     void showLyrics(const LyricResult &result);
 
-
+    void on_stopMusicBtn_clicked();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -81,6 +81,7 @@ private:
     QWidget* myRadioWidget;                     // 我的电台堆栈窗口
     QWidget* myCollectWidget;                   // 我的收藏堆栈窗口
 
+    QMediaPlayer::State playerState;
     bool isShowLyrics;                          // 是否正在显示歌词
     LyricCardWidget* lyricWidget;               // 歌词界面
     FPlayer* fplayer;                           // 播放器

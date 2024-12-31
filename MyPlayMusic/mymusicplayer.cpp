@@ -9,7 +9,7 @@
 
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(nullptr)
+    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(nullptr),playerState(QMediaPlayer::StoppedState)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
@@ -175,7 +175,6 @@ bool MyMusicPlayer::loadLyricsAsync()
 
     return true;
 }
-
 
 LyricResult &MyMusicPlayer::getLyricResult()
 {
@@ -356,7 +355,6 @@ void MyMusicPlayer::initLeftStackWidget()
     });
 }
 
-
 void MyMusicPlayer::initBottom()
 {
     // 音乐进度条
@@ -376,6 +374,14 @@ void MyMusicPlayer::initPlayer()
             this->loadLyricsAsync();
         }
     });
+
+    connect(fplayer->getMediaPlayer(),&QMediaPlayer::stateChanged,[this](QMediaPlayer::State state){
+                this->playerState = state;
+            });
+
+
+    connect(this->ui->preMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::previous);
+    connect(this->ui->nextMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::next);
 }
 
 void MyMusicPlayer::initDataBase()
@@ -518,5 +524,21 @@ void MyMusicPlayer::showLyrics(const LyricResult &result)
 {
     this->currentLyrics = result;
     qDebug() << "-----歌词解析完毕-----";
+}
+
+void MyMusicPlayer::on_stopMusicBtn_clicked()
+{
+    if(this->playerState == QMediaPlayer::PlayingState){
+        this->fplayer->pause();
+        updateButtonIcon(ui->stopMusicBtn,":/img/play.png",25);
+    }
+    else if(this->playerState == QMediaPlayer::PausedState){
+        this->fplayer->play();
+        updateButtonIcon(ui->stopMusicBtn,":/img/stop.png",25);
+    }
+    else{
+        this->fplayer->stop();
+        updateButtonIcon(ui->stopMusicBtn,":/img/stop.png",25);
+    }
 }
 

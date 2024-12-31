@@ -50,3 +50,7 @@
         ui->mainCenterStackedWidget->setCurrentIndex(musicListOffset + index);
     });
   ```
+---
+  **2024-12-31**
+- 完成暂停和开始
+- 上一首和下一首存在问题，不能正确处理

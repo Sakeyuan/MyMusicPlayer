@@ -18,6 +18,8 @@ public:
     void pause();
     void stop();
 
+
+
     // 设置音量
     void setVolume(int volume);
 
@@ -40,6 +42,10 @@ private:
 signals:
     void mediaChanged(const QString& currentMedia);
     void playbackFinished();
+
+public slots:
+    void next();
+    void previous();
 
 private slots:
     void onMediaChanged();
