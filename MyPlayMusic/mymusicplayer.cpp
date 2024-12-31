@@ -9,7 +9,7 @@
 
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(nullptr),playerState(QMediaPlayer::StoppedState)
+    , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(FPlayer::instance()),playerState(QMediaPlayer::StoppedState)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
@@ -93,6 +93,10 @@ void MyMusicPlayer::initTopABm() {
             });
         }
     });
+
+
+    connect(this->ui->preMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::previous);
+    connect(this->ui->nextMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::next);
 }
 
 void MyMusicPlayer::updateButtonIcon(QPushButton* btn,const QString &iconPath,const int iconSize) {
@@ -364,7 +368,6 @@ void MyMusicPlayer::initBottom()
 
 void MyMusicPlayer::initPlayer()
 {
-    fplayer = FPlayer::instance();
     connect(fplayer->getMediaPlayerlist(), &QMediaPlaylist::currentIndexChanged, this, [this](int newIndex) {
         if (newIndex >= 0) {
             if(this->currentLyrics.isValid()){
@@ -379,9 +382,6 @@ void MyMusicPlayer::initPlayer()
                 this->playerState = state;
             });
 
-
-    connect(this->ui->preMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::previous);
-    connect(this->ui->nextMusicBtn,&QPushButton::clicked,this->fplayer,&FPlayer::next);
 }
 
 void MyMusicPlayer::initDataBase()
