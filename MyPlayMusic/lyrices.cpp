@@ -96,7 +96,7 @@ bool Lyrices::parseTimestampLine(const QString &line, LyricLine &lyricLine)
         int minutes = match.captured(1).toInt();
         int seconds = match.captured(2).toInt();
         int milliseconds = match.captured(3).toInt();
-        if (milliseconds < 100) milliseconds *= 10; // 2位数毫秒补全
+        if (milliseconds < 100) milliseconds *= 10;
 
         lyricLine.timestamp = (minutes * 60 * 1000) + (seconds * 1000) + milliseconds;
         lyricLine.text = match.captured(4).trimmed();

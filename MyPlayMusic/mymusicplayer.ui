@@ -617,7 +617,7 @@
        <item>
         <layout class="QHBoxLayout" name="bottomWidgetHorizontalLayout">
          <item>
-          <widget class="MusicMessage" name="widget" native="true">
+          <widget class="MusicMessage" name="musicMessageWidget" native="true">
            <property name="minimumSize">
             <size>
              <width>180</width>

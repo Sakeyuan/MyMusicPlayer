@@ -63,6 +63,8 @@ private slots:
 
     void on_stopMusicBtn_clicked();
 
+    void on_voiceSlider_sliderMoved(int position);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -89,6 +91,7 @@ private:
     Lyrices lyricParser;
 
     QMutex mutex;
+
 private:
     Ui::MyMusicPlayer *ui;
 

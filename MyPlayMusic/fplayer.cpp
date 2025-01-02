@@ -63,6 +63,11 @@ void FPlayer::stop()
     m_mediaPlayer->stop();
 }
 
+void FPlayer::setPosition(qint64 newPosition)
+{
+    this->m_mediaPlayer->setPosition(newPosition);
+}
+
 void FPlayer::setVolume(int volume)
 {
     m_mediaPlayer->setVolume(volume);

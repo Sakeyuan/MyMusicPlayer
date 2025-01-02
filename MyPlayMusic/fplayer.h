@@ -18,6 +18,9 @@ public:
     void pause();
     void stop();
 
+    // 设置歌曲播放位置
+    void setPosition(qint64 newPosition);
+
     // 设置音量
     void setVolume(int volume);
 

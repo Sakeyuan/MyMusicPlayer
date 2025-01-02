@@ -23,6 +23,21 @@ LocalMusicWidget::LocalMusicWidget(QWidget *parent) :
 
     player->setPlaybackMode(QMediaPlaylist::Loop);
 
+    connect(player->getMediaPlayerlist(), &QMediaPlaylist::currentIndexChanged, this, [this](int newIndex) {
+        if (newIndex < 0 || newIndex >= this->ui->localMusicListWidget->count()) {
+            qDebug() << "Invalid index:" << newIndex;
+            return;
+        }
+
+        QListWidgetItem* currentItem = this->ui->localMusicListWidget->item(newIndex);
+        if (currentItem) {
+            this->ui->localMusicListWidget->setCurrentItem(currentItem);
+            filePath = currentItem->data(Qt::UserRole).toString();
+        } else {
+            qDebug() << "Item at index" << newIndex << "is null.";
+        }
+    });
+
     loadMusicFromDatabase();
 }
 
@@ -98,7 +113,8 @@ void LocalMusicWidget::on_localMusicListWidget_doubleClicked(const QModelIndex &
     int row = index.row();
     QListWidgetItem *item = this->ui->localMusicListWidget->item(row);
     filePath = item->data(Qt::UserRole).toString();
-    player->setMedia(filePath);
+    //player->setMedia(filePath);
+    player->setCurrentIndex(row);
     player->play();
 }
 

@@ -486,7 +486,6 @@ void MyMusicPlayer::onPositionChanged(qint64 position) {
     ui->startTimeLabel->setText(Util::formatTime(position));
     if(isShowLyrics && this->lyricWidget && this->lyricWidget->isVisible()){
         QString lyrics = Lyrices::getLyricAtTime(position,this->currentLyrics.lyrics);
-        qDebug() << "歌词: " << lyrics;
         this->lyricWidget->setLyrics(lyrics);
     }
 }
@@ -494,8 +493,12 @@ void MyMusicPlayer::onPositionChanged(qint64 position) {
 void MyMusicPlayer::on_musicTimeSlider_sliderMoved(int position)
 {
     qint64 newPosition = static_cast<qint64>(position);
-    // player->setPosition(newPosition);
-    // emit positionChanged(newPosition); // 手动发射信号
+    fplayer->setPosition(newPosition);
+}
+
+void MyMusicPlayer::on_voiceSlider_sliderMoved(int position)
+{
+     fplayer->setVolume(position);
 }
 
 void MyMusicPlayer::on_showMusicTextBtn_clicked()
@@ -544,4 +547,5 @@ void MyMusicPlayer::on_stopMusicBtn_clicked()
         updateButtonIcon(ui->stopMusicBtn,":/img/stop.png",25);
     }
 }
+
 
