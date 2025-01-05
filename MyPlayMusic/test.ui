@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Test</class>
+ <widget class="QWidget" name="Test">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>573</width>
+    <height>336</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="MarqueeLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>90</y>
+     <width>181</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabelTextLabelTextLabelTextLabelTextLabelTextLabel</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MarqueeLabel</class>
+   <extends>QLabel</extends>
+   <header>marqueelabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

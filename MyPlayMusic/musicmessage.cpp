@@ -12,3 +12,15 @@ MusicMessage::~MusicMessage()
 {
     delete ui;
 }
+
+void MusicMessage::setTitle(QString text)
+{
+    this->ui->titleLabel->setText(text);
+    this->ui->titleLabel->setFixedWidth(90);
+}
+
+void MusicMessage::setAuthor(QString text)
+{
+    this->ui->authorLabel->setText(text);
+    this->ui->authorLabel->setFixedWidth(90);
+}

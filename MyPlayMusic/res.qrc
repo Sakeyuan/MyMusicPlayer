@@ -12,7 +12,6 @@
         <file>img/preMusic.png</file>
         <file>img/stop.png</file>
         <file>img/play.png</file>
-        <file>img/voice.png</file>
         <file>img/circle.png</file>
         <file>img/showWord.png</file>
         <file>img/collect.png</file>
@@ -37,5 +36,7 @@
         <file>img/refresh.png</file>
         <file>img/search.png</file>
         <file>img/lyric.svg</file>
+        <file>img/notvoice.svg</file>
+        <file>img/voice.svg</file>
     </qresource>
 </RCC>

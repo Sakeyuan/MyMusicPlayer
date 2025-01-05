@@ -21,7 +21,6 @@ FPlayer::FPlayer(QObject *parent) : QObject(parent)
 
     connect(m_playlist,&QMediaPlaylist::currentMediaChanged,this,&FPlayer::onMediaChanged);
     connect(m_mediaPlayer, &QMediaPlayer::stateChanged, this, &FPlayer::onPlaybackStateChanged);
-
 }
 
 FPlayer::~FPlayer()
@@ -34,12 +33,14 @@ void FPlayer::next()
 {
     qDebug() << "下一首";
     this->m_playlist->next();
+    this->play();
 }
 
 void FPlayer::previous()
 {
     qDebug() << "前一首";
     this->m_playlist->previous();
+    this->play();
 }
 
 void FPlayer::play()

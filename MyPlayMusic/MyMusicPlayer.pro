@@ -18,11 +18,13 @@ SOURCES += \
     lyrices.cpp \
     lyricsparsetask.cpp \
     main.cpp \
+    marqueelabel.cpp \
     musicmessage.cpp \
     mymusicplayer.cpp \
     playmusiclistform.cpp \
     qcarousel.cpp \
     sidehidelabel.cpp \
+    test.cpp \
     util.cpp
 
 HEADERS += \
@@ -34,12 +36,14 @@ HEADERS += \
     lyriccardwidget.h \
     lyrices.h \
     lyricsparsetask.h \
+    marqueelabel.h \
     musicmessage.h \
     mymusicplayer.h \
     playmusiclistform.h \
     qcarousel.h \
     queries.h \
     sidehidelabel.h \
+    test.h \
     util.h
 
 FORMS += \
@@ -48,7 +52,7 @@ FORMS += \
     lyriccardwidget.ui \
     musicmessage.ui \
     mymusicplayer.ui \
-    playmusiclistform.ui
+    test.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -59,4 +63,6 @@ RESOURCES += \
     res.qrc
 
 DISTFILES += \
+    img/notvoice.svg \
+    img/voice.svg \
     sql/music.db

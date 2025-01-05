@@ -32,7 +32,7 @@ public:
 
     void setLeftTextFontSize(int size = 14);
     PlayMusicListForm* getPlayMusicListFormInstance();
-    bool loadLyricsAsync();
+    bool loadLyricsAsync(QString filePath);
 
     LyricResult& getLyricResult();
 
@@ -65,6 +65,10 @@ private slots:
 
     void on_voiceSlider_sliderMoved(int position);
 
+    void musicChanged(QString filePath);
+
+    void on_voiceBtn_clicked();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -83,6 +87,7 @@ private:
     QWidget* myRadioWidget;                     // 我的电台堆栈窗口
     QWidget* myCollectWidget;                   // 我的收藏堆栈窗口
 
+    int currentVolume = 80;                     // 初始音量
     QMediaPlayer::State playerState;
     bool isShowLyrics;                          // 是否正在显示歌词
     LyricCardWidget* lyricWidget;               // 歌词界面

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1084</width>
-    <height>775</height>
+    <width>1057</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -28,8 +28,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>5</x>
-     <y>-1</y>
+     <x>0</x>
+     <y>1</y>
      <width>1052</width>
      <height>741</height>
     </rect>
@@ -617,7 +617,7 @@
        <item>
         <layout class="QHBoxLayout" name="bottomWidgetHorizontalLayout">
          <item>
-          <widget class="MusicMessage" name="musicMessageWidget" native="true">
+          <widget class="MusicMessage" name="musicMessage" native="true">
            <property name="minimumSize">
             <size>
              <width>180</width>
@@ -642,7 +642,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>10</width>
+             <width>13</width>
              <height>20</height>
             </size>
            </property>

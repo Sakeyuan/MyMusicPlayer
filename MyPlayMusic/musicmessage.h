@@ -14,6 +14,8 @@ class MusicMessage : public QWidget
 public:
     explicit MusicMessage(QWidget *parent = nullptr);
     ~MusicMessage();
+    void setTitle(QString text);
+    void setAuthor(QString text);
 
 private:
     Ui::MusicMessage *ui;
