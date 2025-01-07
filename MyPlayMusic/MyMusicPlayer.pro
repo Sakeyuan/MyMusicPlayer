@@ -63,6 +63,8 @@ RESOURCES += \
     res.qrc
 
 DISTFILES += \
+    img/lyric.svg \
+    img/lyricClicked.svg \
     img/notvoice.svg \
     img/voice.svg \
     sql/music.db

@@ -69,6 +69,10 @@ private slots:
 
     void on_voiceBtn_clicked();
 
+    void on_playModeBtn_clicked();
+
+    void playbackModeChanged(QMediaPlaylist::PlaybackMode playbackMode);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -94,8 +98,9 @@ private:
     FPlayer* fplayer;                           // 播放器
     LyricResult currentLyrics;                  // 当前歌词
     Lyrices lyricParser;
-
+    QMediaPlaylist::PlaybackMode playbackMode;  // 播放模式
     QMutex mutex;
+
 
 private:
     Ui::MyMusicPlayer *ui;

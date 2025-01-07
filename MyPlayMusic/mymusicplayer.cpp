@@ -7,9 +7,24 @@
 #include <qstyleditemdelegate.h>
 #include <QStandardPaths>
 
+class NoFocusDelegate : public QStyledItemDelegate
+{
+public:
+    NoFocusDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    {
+        QStyleOptionViewItem opt = option;
+        // 禁用焦点效果
+        opt.state &= ~QStyle::State_HasFocus;
+        QStyledItemDelegate::paint(painter, opt, index);
+    }
+};
+
 MyMusicPlayer::MyMusicPlayer(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MyMusicPlayer),lyricWidget(nullptr),fplayer(FPlayer::instance()),playerState(QMediaPlayer::StoppedState)
+    , playbackMode(QMediaPlaylist::Loop)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
@@ -67,8 +82,8 @@ void MyMusicPlayer::initTopABm() {
     updateButtonIcon(ui->nextMusicBtn,":/img/nextMusic.png",25);
     updateButtonIcon(ui->voiceBtn,":/img/voice.svg",25);
     updateButtonIcon(ui->playMusicListFormBtn,":/img/playListForm.png",25);
-    updateButtonIcon(ui->playModeBtn,":/img/circle.png",25);
-    updateButtonIcon(ui->showMusicTextBtn,":/img/lyric.svg",45);
+    updateButtonIcon(ui->playModeBtn,":/img/listCircle.svg",25);
+    updateButtonIcon(ui->showMusicTextBtn,":/img/lyric.svg",35);
 
     // 保存初始位置
     QPoint originalPos = this->pos();
@@ -96,108 +111,6 @@ void MyMusicPlayer::initTopABm() {
 
 }
 
-void MyMusicPlayer::updateButtonIcon(QPushButton* btn,const QString &iconPath,const int iconSize) {
-    QPixmap pixmap(iconPath);
-    QPixmap scaledPixmap = pixmap.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    btn->setIcon(QIcon(scaledPixmap));
-    btn->setIconSize(scaledPixmap.size());
-}
-
-void MyMusicPlayer::mousePressEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        dragging = true;
-        dragStartPosition = event->globalPos() - frameGeometry().topLeft();
-        event->accept();
-    }
-}
-
-void MyMusicPlayer::mouseMoveEvent(QMouseEvent *event) {
-    if (dragging) {
-        QPoint newPos = event->globalPos() - dragStartPosition;
-        move(newPos);
-        event->accept();
-    }
-}
-
-void MyMusicPlayer::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        dragging = false;
-        event->accept();
-    }
-}
-
-class NoFocusDelegate : public QStyledItemDelegate
-{
-public:
-    NoFocusDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
-
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
-    {
-        QStyleOptionViewItem opt = option;
-        // 禁用焦点效果
-        opt.state &= ~QStyle::State_HasFocus;
-        QStyledItemDelegate::paint(painter, opt, index);
-    }
-};
-
-MyMusicPlayer::~MyMusicPlayer()
-{
-    delete ui;
-}
-
-void MyMusicPlayer::setLeftTextFontSize(int size)
-{
-    this->leftTextFont.setPointSize(size);
-}
-
-PlayMusicListForm *MyMusicPlayer::getPlayMusicListFormInstance()
-{
-    static PlayMusicListForm* instance = nullptr;
-    if(nullptr == instance){
-        instance = new PlayMusicListForm(this);
-    }
-    return instance;
-}
-
-bool MyMusicPlayer::loadLyricsAsync(QString filePath)
-{
-    qDebug() << "解析歌词中......";
-    if(filePath.isEmpty()){
-        qDebug() << "歌曲为空";
-        return false;
-    }
-    auto *task = new LyricsParseTask(filePath);
-
-    connect(task, &LyricsParseTask::lyricParseFinish, this, &MyMusicPlayer::showLyrics);
-    connect(task, &LyricsParseTask::lyricParseFailed, this, [](const QString &filePath) {
-        qDebug() << "Failed to parse lyrics for:" << filePath;
-    });
-
-    task->setAutoDelete(true);
-
-    QThreadPool::globalInstance()->start(task);
-
-    return true;
-}
-
-LyricResult &MyMusicPlayer::getLyricResult()
-{
-    return this->currentLyrics;
-}
-
-void MyMusicPlayer::on_closeBtn_clicked()
-{
-    this->close();
-}
-
-void MyMusicPlayer::musicChanged(QString filePath)
-{
-    if(this->currentLyrics.isValid()){
-        QMutexLocker locker(&mutex);
-        Lyrices::clearLyricResult(this->currentLyrics);
-    }
-    this->loadLyricsAsync(filePath);
-}
 
 void MyMusicPlayer::initLeftControl()
 {
@@ -390,6 +303,7 @@ void MyMusicPlayer::initPlayer()
     //    });
 
     connect(fplayer,&FPlayer::mediaChanged,this,&MyMusicPlayer::musicChanged);
+    connect(fplayer,&FPlayer::playbackModeChanged,this,&MyMusicPlayer::playbackModeChanged);
 
     connect(fplayer->getMediaPlayer(),&QMediaPlayer::stateChanged,[this](QMediaPlayer::State state){
         this->playerState = state;
@@ -423,6 +337,95 @@ void MyMusicPlayer::initDataBase()
 void MyMusicPlayer::initLyricParser()
 {
 
+}
+
+void MyMusicPlayer::updateButtonIcon(QPushButton* btn,const QString &iconPath,const int iconSize) {
+    QPixmap pixmap(iconPath);
+    QPixmap scaledPixmap = pixmap.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    btn->setIcon(QIcon(scaledPixmap));
+    btn->setIconSize(scaledPixmap.size());
+}
+
+void MyMusicPlayer::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        dragging = true;
+        dragStartPosition = event->globalPos() - frameGeometry().topLeft();
+        event->accept();
+    }
+}
+
+void MyMusicPlayer::mouseMoveEvent(QMouseEvent *event) {
+    if (dragging) {
+        QPoint newPos = event->globalPos() - dragStartPosition;
+        move(newPos);
+        event->accept();
+    }
+}
+
+void MyMusicPlayer::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        dragging = false;
+        event->accept();
+    }
+}
+
+MyMusicPlayer::~MyMusicPlayer()
+{
+    delete ui;
+}
+
+void MyMusicPlayer::setLeftTextFontSize(int size)
+{
+    this->leftTextFont.setPointSize(size);
+}
+
+PlayMusicListForm *MyMusicPlayer::getPlayMusicListFormInstance()
+{
+    static PlayMusicListForm* instance = nullptr;
+    if(nullptr == instance){
+        instance = new PlayMusicListForm(this);
+    }
+    return instance;
+}
+
+bool MyMusicPlayer::loadLyricsAsync(QString filePath)
+{
+    qDebug() << "解析歌词中......";
+    if(filePath.isEmpty()){
+        qDebug() << "歌曲为空";
+        return false;
+    }
+    auto *task = new LyricsParseTask(filePath);
+
+    connect(task, &LyricsParseTask::lyricParseFinish, this, &MyMusicPlayer::showLyrics);
+    connect(task, &LyricsParseTask::lyricParseFailed, this, [](const QString &filePath) {
+        qDebug() << "Failed to parse lyrics for:" << filePath;
+    });
+
+    task->setAutoDelete(true);
+
+    QThreadPool::globalInstance()->start(task);
+
+    return true;
+}
+
+LyricResult &MyMusicPlayer::getLyricResult()
+{
+    return this->currentLyrics;
+}
+
+void MyMusicPlayer::on_closeBtn_clicked()
+{
+    this->close();
+}
+
+void MyMusicPlayer::musicChanged(QString filePath)
+{
+    if(this->currentLyrics.isValid()){
+        QMutexLocker locker(&mutex);
+        Lyrices::clearLyricResult(this->currentLyrics);
+    }
+    this->loadLyricsAsync(filePath);
 }
 
 void MyMusicPlayer::on_shrinkBtn_clicked()
@@ -537,6 +540,7 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
             lyricWidget->show();
         }
         this->lyricWidget->setLyrics("歌词加载中......");
+        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyricClicked.svg",35);
     }
     else {
         isShowLyrics = false;
@@ -544,6 +548,7 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
         if (lyricWidget) {
             lyricWidget->hide();
         }
+        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyric.svg",35);
     }
 }
 
@@ -585,5 +590,37 @@ void MyMusicPlayer::on_voiceBtn_clicked()
     }
     this->ui->voiceSlider->setValue(currentVolume);
     this->fplayer->setVolume(currentVolume);
+}
+
+void MyMusicPlayer::on_playModeBtn_clicked()
+{
+    switch (this->playbackMode) {
+    case QMediaPlaylist::CurrentItemOnce:
+        this->playbackMode = QMediaPlaylist::CurrentItemInLoop;
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/singleCircle.svg",35);
+        break;
+    case QMediaPlaylist::CurrentItemInLoop:
+        this->playbackMode = QMediaPlaylist::Sequential;
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/sequential.svg",35);
+        break;
+    case QMediaPlaylist::Sequential:
+        this->playbackMode = QMediaPlaylist::Loop;
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/list.svg",35);
+        break;
+    case QMediaPlaylist::Loop:
+        this->playbackMode = QMediaPlaylist::Random;
+        qDebug() << "单曲播放";
+        break;
+    case QMediaPlaylist::Random:
+        this->playbackMode = QMediaPlaylist::CurrentItemOnce;
+        qDebug() << "随机播放";
+        break;
+    }
+    this->fplayer->setPlaybackMode(this->playbackMode);
+}
+
+void MyMusicPlayer::playbackModeChanged(QMediaPlaylist::PlaybackMode playbackMode)
+{
+    this->playbackMode = playbackMode;
 }
 

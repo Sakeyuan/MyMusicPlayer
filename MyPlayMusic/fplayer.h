@@ -43,6 +43,7 @@ private:
 signals:
     void mediaChanged(const QString& currentMedia);
     void playbackFinished();
+    void playbackModeChanged();
 
 public slots:
     void next();

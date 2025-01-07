@@ -12,7 +12,6 @@
         <file>img/preMusic.png</file>
         <file>img/stop.png</file>
         <file>img/play.png</file>
-        <file>img/circle.png</file>
         <file>img/showWord.png</file>
         <file>img/collect.png</file>
         <file>img/singer.png</file>
@@ -35,8 +34,15 @@
         <file>img/more.png</file>
         <file>img/refresh.png</file>
         <file>img/search.png</file>
-        <file>img/lyric.svg</file>
         <file>img/notvoice.svg</file>
         <file>img/voice.svg</file>
+        <file>img/listCircle.svg</file>
+        <file>img/randomCircle.svg</file>
+        <file>img/singalCircle.svg</file>
+        <file>img/lyric.svg</file>
+        <file>img/lyricClicked.svg</file>
+        <file>img/sequence.svg</file>
+        <file>img/singleCircle.svg</file>
+        <file>img/singleSequence.svg</file>
     </qresource>
 </RCC>
