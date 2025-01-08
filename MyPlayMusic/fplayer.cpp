@@ -21,7 +21,7 @@ FPlayer::FPlayer(QObject *parent) : QObject(parent)
 
     connect(m_playlist,&QMediaPlaylist::currentMediaChanged,this,&FPlayer::onMediaChanged);
     connect(m_mediaPlayer, &QMediaPlayer::stateChanged, this, &FPlayer::onPlaybackStateChanged);
-    connect(m_playlist,&QMediaPlaylist::playbackModeChanged,&FPlayer::playbackModeChanged);
+    connect(m_playlist,&QMediaPlaylist::playbackModeChanged,this,&FPlayer::playbackModeChanged);
 }
 
 FPlayer::~FPlayer()

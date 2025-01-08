@@ -38,11 +38,10 @@
         <file>img/voice.svg</file>
         <file>img/listCircle.svg</file>
         <file>img/randomCircle.svg</file>
-        <file>img/singalCircle.svg</file>
         <file>img/lyric.svg</file>
         <file>img/lyricClicked.svg</file>
-        <file>img/sequence.svg</file>
         <file>img/singleCircle.svg</file>
-        <file>img/singleSequence.svg</file>
+        <file>img/sequential.svg</file>
+        <file>img/single.svg</file>
     </qresource>
 </RCC>

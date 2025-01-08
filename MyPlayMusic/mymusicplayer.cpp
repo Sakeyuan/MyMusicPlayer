@@ -83,7 +83,7 @@ void MyMusicPlayer::initTopABm() {
     updateButtonIcon(ui->voiceBtn,":/img/voice.svg",25);
     updateButtonIcon(ui->playMusicListFormBtn,":/img/playListForm.png",25);
     updateButtonIcon(ui->playModeBtn,":/img/listCircle.svg",25);
-    updateButtonIcon(ui->showMusicTextBtn,":/img/lyric.svg",35);
+    updateButtonIcon(ui->showMusicTextBtn,":/img/lyric.svg",30);
 
     // 保存初始位置
     QPoint originalPos = this->pos();
@@ -110,7 +110,6 @@ void MyMusicPlayer::initTopABm() {
     });
 
 }
-
 
 void MyMusicPlayer::initLeftControl()
 {
@@ -540,7 +539,7 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
             lyricWidget->show();
         }
         this->lyricWidget->setLyrics("歌词加载中......");
-        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyricClicked.svg",35);
+        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyricClicked.svg",30);
     }
     else {
         isShowLyrics = false;
@@ -548,7 +547,7 @@ void MyMusicPlayer::on_showMusicTextBtn_clicked()
         if (lyricWidget) {
             lyricWidget->hide();
         }
-        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyric.svg",35);
+        this->updateButtonIcon(this->ui->showMusicTextBtn,":/img/lyric.svg",30);
     }
 }
 
@@ -597,23 +596,28 @@ void MyMusicPlayer::on_playModeBtn_clicked()
     switch (this->playbackMode) {
     case QMediaPlaylist::CurrentItemOnce:
         this->playbackMode = QMediaPlaylist::CurrentItemInLoop;
-        this->updateButtonIcon(this->ui->playModeBtn,":/img/singleCircle.svg",35);
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/singleCircle.svg",25);
+        qDebug() << "单曲循环";
         break;
     case QMediaPlaylist::CurrentItemInLoop:
         this->playbackMode = QMediaPlaylist::Sequential;
-        this->updateButtonIcon(this->ui->playModeBtn,":/img/sequential.svg",35);
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/sequential.svg",25);
+        qDebug() << "列表顺序播放";
         break;
     case QMediaPlaylist::Sequential:
         this->playbackMode = QMediaPlaylist::Loop;
-        this->updateButtonIcon(this->ui->playModeBtn,":/img/list.svg",35);
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/listCircle.svg",25);
+        qDebug() << "列表循环播放";
         break;
     case QMediaPlaylist::Loop:
         this->playbackMode = QMediaPlaylist::Random;
-        qDebug() << "单曲播放";
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/randomCircle.svg",25);
+        qDebug() << "随机播放";
         break;
     case QMediaPlaylist::Random:
         this->playbackMode = QMediaPlaylist::CurrentItemOnce;
-        qDebug() << "随机播放";
+        this->updateButtonIcon(this->ui->playModeBtn,":/img/single.svg",25);
+        qDebug() << "单曲";
         break;
     }
     this->fplayer->setPlaybackMode(this->playbackMode);

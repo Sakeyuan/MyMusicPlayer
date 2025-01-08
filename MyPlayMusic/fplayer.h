@@ -43,7 +43,7 @@ private:
 signals:
     void mediaChanged(const QString& currentMedia);
     void playbackFinished();
-    void playbackModeChanged();
+    void playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
 
 public slots:
     void next();
