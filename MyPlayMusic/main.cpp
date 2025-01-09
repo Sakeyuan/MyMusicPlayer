@@ -9,10 +9,12 @@
 #include "lyriccardwidget.h"
 #include "lyrices.h"
 #include "test.h"
+#include <spdlog/spdlog.h>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    spdlog::info("Hello, Qt with spdlog!");
     MyMusicPlayer w;
     // Test w;
 

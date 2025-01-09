@@ -115,6 +115,6 @@ void LocalMusicWidget::on_localMusicListWidget_doubleClicked(const QModelIndex &
     filePath = item->data(Qt::UserRole).toString();
     //player->setMedia(filePath);
     player->setCurrentIndex(row);
-    player->play();
+    player->play( );
 }
 
