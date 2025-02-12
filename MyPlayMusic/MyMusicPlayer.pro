@@ -3,6 +3,7 @@ QT       += core gui sql multimedia concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+CONFIG += unicode
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -14,6 +15,7 @@ SOURCES += \
     fsearchbox.cpp \
     internalbutton.cpp \
     localmusicwidget.cpp \
+    logger.cpp \
     lyriccardwidget.cpp \
     lyrices.cpp \
     lyricsparsetask.cpp \
@@ -33,6 +35,7 @@ HEADERS += \
     fsearchbox.h \
     internalbutton.h \
     localmusicwidget.h \
+    logger.h \
     lyriccardwidget.h \
     lyrices.h \
     lyricsparsetask.h \
@@ -52,6 +55,7 @@ FORMS += \
     lyriccardwidget.ui \
     musicmessage.ui \
     mymusicplayer.ui \
+    playmusiclistform.ui \
     test.ui
 
 # Default rules for deployment.
@@ -70,3 +74,6 @@ DISTFILES += \
     img/notvoice.svg \
     img/voice.svg \
     sql/music.db
+
+
+

@@ -20,7 +20,6 @@ struct LyricResult {
     int offset = 0;               // 时间偏移量
     QList<LyricLine> lyrics;      // 所有歌词行
     LyricResult() : title("暂无歌词信息"),artist("无"),album("无"),by("无"){
-
     }
     bool isValid() const {
         return !title.isEmpty() && !artist.isEmpty() && !lyrics.isEmpty();
@@ -45,7 +44,6 @@ private:
     static bool parseMetaInfo(const QString &line,LyricResult &result);
     static bool parseTimestampLine(const QString &line, LyricLine &lyricLine);
     static qint64 parseTimestamp(const QString &timeStr);
-
 };
 
 #endif // LYRICES_H
