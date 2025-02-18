@@ -30,6 +30,7 @@ SOURCES += \
     util.cpp
 
 HEADERS += \
+    QLogFormatter.h \
     databasemanager.h \
     fplayer.h \
     fsearchbox.h \
@@ -64,6 +65,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 INCLUDEPATH += $$PWD/include
+
+INCLUDEPATH += $$PWD/include/ffmpeg/include
+LIBS += $$PWD/include/ffmpeg/bin/av*.dll \
+        $$PWD/include/ffmpeg/bin/sw*.dll \
+        $$PWD/include/ffmpeg/bin/pos*.dll
 
 RESOURCES += \
     res.qrc
